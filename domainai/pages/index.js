@@ -72,11 +72,12 @@ function ScrollTop(props) {
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
   padding: "10px",
   width: "100%",
-  position: "fixed",
+  position: "absolute",
   backgroundColor: "white",
   overflow: "scroll",
   bottom: "0",
   top: "0",
+  marginLeft:`-${drawerWidth}px`,
 
   ...(open && {
     marginRight: `+${drawerWidth}px`,
@@ -286,8 +287,9 @@ export default function App(props) {
 
       </Drawer>
 
+      <Box>
 
-      <div className={styles.scrollableContainer} ref={scrollableContainerRef}  style={{ backgroundColor:"white"}} >
+      <Main ref={scrollableContainerRef}  >
       <DrawerHeader/>
         <div className={styles.messageContainer}>
           <Message
@@ -316,14 +318,15 @@ export default function App(props) {
         ))}
 
         <div style={{ clear: "both" }}></div>
-      </div>
+      </Main>
       <Toolbar id="back-to-top-anchor" />
 
 
-      <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} props={props} />
       
 
     </Box>
+          <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} props={props} />
+</Box>
     
   );
 }
