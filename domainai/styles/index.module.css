@@ -27,16 +27,15 @@
     width: 100%;
     overflow: scroll;
     background-color: white;
+    position:absolute;
+    top: 0;
     bottom:0;
-    top:0;
-    position:fixed;
-    margin-bottom:100px;
+    padding:10px;
   }
   
 
   .messageContainer {
     display: inline-block;
-
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
