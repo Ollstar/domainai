@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled, createTheme } from '@mui/material/styles';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,44 +27,57 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { TextField } from '@mui/material';
+import { CircularProgress, TextField } from '@mui/material';
 import NestedList from '@/components/NestedList';
 import styles from '@/styles/index.module.css';
-import NoSsr from '@mui/material';
+import { NoSsr } from '@mui/material';
 import { Container, height, textAlign } from '@mui/system';
 import { Button } from '@mui/material';
-import Message from '@/components/Message';
 import SendIcon from '@mui/icons-material/Send';
 import Grid from '@mui/material/Grid';
-
-
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Message from '@/components/Message.jsx';
+import SubmitButton from '@/components/SubmitButton';
 const drawerWidth = 240;
 
+function ScrollTop(props) {
+  const { children } = props;
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 100,
+  });
 
+  const handleClick = (event) => {
+    const anchor = (event.target.ownerDocument || document).querySelector(
+      '#back-to-top-anchor',
+    );
 
-const Subtext = styled('div')(({ props }) => ({
+    if (anchor) {
+      anchor.scrollIntoView({
+        block: 'end',
+      });
+    }
+  };
 
-}));
-const MessageContainer = styled('div')(({ author }) => ({
-  width: "60%",
-  alignSelf: author !== 'User' ? 'flex-end' : 'flex-start'
-}));
-
-const PaperContainer = styled(Paper)({
-  alignItems: 'stretch',
-  justifyContent: "flex-start/flex-end",
-  padding: '20px'
-});
-
-
+  return (
+    <Box
+      onClick={handleClick}
+      role="presentation"
+    >
+      {children}
+    </Box>
+  );
+}
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(1),
+  padding: "10px",
   width: "100%",
-  height: "100%",
   position: "fixed",
   backgroundColor: "white",
+  overflow: "scroll",
+  bottom: "0",
+  top: "0",
+
   ...(open && {
     marginRight: `+${drawerWidth}px`,
   }),
@@ -96,34 +109,39 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-
-
-
-function BottomAppBar({ open, onSubmit, setMessageInput, messageInput }) {
+export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, props, isLoading }) {
   return (
     <React.Fragment>
-      <AppBar open={open} position="fixed" sx={{ top: 'auto', bottom: 0, backgroundColor:"rgb(240,240,240)" }}>
+      <AppBar position="fixed" sx={{ top: 'auto', bottom: "0", padding:"10px", backgroundColor: "rgb(240,240,240)" }}>
         <Toolbar>
 
 
-            
+
           <form onSubmit={onSubmit}>
-            <TextField 
-            width="100%"
-              id="outlined-basic" 
-              label="Enter message..." 
-              variant="outlined" 
+            <TextField
+              width="100%"
+              id="outlined-basic"
+              label="Enter message..."
+              variant="outlined"
               value={messageInput}
               color='primary'
+              disabled={isLoading}
               onChange={e => setMessageInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') onSubmit(e) }}
             />
           </form>
-<Box sx={{ flexGrow: 1 }} />
-          <IconButton color="black"
-          onClick={onSubmit}>
-            <SendIcon />
-          </IconButton>
+          <Box sx={{ flexGrow: 1 }} />
+          <ScrollTop {...props}>
+            <IconButton 
+              color="primary"
+              aria-label="scroll back to top"
+              disabled={isLoading}
+              onClick={onSubmit}
+            >
+              {isLoading ? <CircularProgress size={24}/> :  <SendIcon />}
+            </IconButton>
+
+          </ScrollTop>
         </Toolbar>
       </AppBar>
     </React.Fragment>
@@ -132,27 +150,34 @@ function BottomAppBar({ open, onSubmit, setMessageInput, messageInput }) {
 
 
 
-export default function App() {
+export default function App(props) {
   let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
 
   const [messageInput, setMessageInput] = useState("");
   const [conversation, setConversation] = useState([]);
-
+  const scrollableContainerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!timestamp) {
       setTimestamp(new Date().toLocaleString());
     }
-  }, [timestamp]);
+    scrollableContainerRef.current.scrollTop = scrollableContainerRef.current.scrollHeight;
+  }, [conversation, timestamp]);
 
   async function onSubmit(event, message = messageInput) {
     if (event && event.preventDefault) {
       event.preventDefault();
     }
-    setMessageInput("");
     let currentTimestamp = new Date().toLocaleString();
-    setConversation([...conversation, { text: message, author: "User", timestamp: currentTimestamp }]);
+
+    if (message !== "") {
+      setConversation([...conversation, { text: message, author: "User", timestamp: currentTimestamp }]);
+    }
+
+
+
+    setMessageInput("");
 
 
 
@@ -210,7 +235,7 @@ export default function App() {
         contrastText: '#000',
       },
     },
-  });  const [open, setOpen] = React.useState(false);
+  }); const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -221,7 +246,7 @@ export default function App() {
   };
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open} sx={{backgroundColor:"rgb(240,240,240)"}}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "rgb(240,240,240)" }}>
 
         <Toolbar>
           <IconButton
@@ -261,46 +286,44 @@ export default function App() {
 
       </Drawer>
 
-     
 
-      <Main open={open} sx={{backgroundColor:"#f2f2f2"}}>
-      <DrawerHeader />
-
+      <div className={styles.scrollableContainer} ref={scrollableContainerRef}  style={{ backgroundColor:"white"}} >
+      <DrawerHeader/>
         <div className={styles.messageContainer}>
           <Message
             author="StarburgerAI"
             text="Hey... 👋"
-            timestamp={<NoSsr>{timestamp}</NoSsr>}>
+            timestamp= {<NoSsr>{timestamp}</NoSsr>}>
           </Message>
         </div>
         <div className={styles.messageContainer}>
           <Message
             author="StarburgerAI"
             text="Thanks for jumping on to the Starburger feedback chat 🙏.  We are here to help and serve… 😃 What can we do for you?"
-            timestamp={<NoSsr>{timestamp}</NoSsr>}>
+            timestamp= {<NoSsr>{timestamp}</NoSsr>}>
           </Message>
-
+        </div>
 
         {conversation.map((message, index) => (
-          <div key={index} className={styles.messageContainer}>
-              <div className={message.author === "User" ? styles.messageLeft : styles.messageRight}>
-                {message.text}
-                <div className={message.author === "User" ? styles.subtextLeft : styles.subtext}>
-                  {message.timestamp} - {message.author}
-                </div>
-              </div>
+          <div key={index} className={styles.messageContainer} >
+                     <Message
+                     className = {message.author === "User" ? styles.messageRight : styles.messageLeft}
+            author={message.author}
+            text={message.text}
+            timestamp={message.timestamp}>
+          </Message>
           </div>
         ))}
 
         <div style={{ clear: "both" }}></div>
-
       </div>
-      </Main>
+      <Toolbar id="back-to-top-anchor" />
 
 
-
-      <BottomAppBar open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput}/>
+      <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} props={props} />
+      
 
     </Box>
+    
   );
 }

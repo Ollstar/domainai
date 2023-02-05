@@ -25,6 +25,7 @@ export default function NestedList({ onSubmit, setMessageInput }) {
   };
 
   return (
+    <>
     <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
       component="nav"
@@ -65,5 +66,6 @@ export default function NestedList({ onSubmit, setMessageInput }) {
         </List>
       </Collapse>
     </List>
+    </>
   );
 }

@@ -1,31 +1,49 @@
-.messageLeft {
+.messageRight {
     text-align: right;
     background-color: #E9E9EB;
     border-radius: 10px;
     padding: 10px;
     float: right;
-    width: 60%;
     color: black;
     font-family: "lato", sans-serif;
     font-size: 16px;
-  
+    max-width: 60%;
+
   }
   
-  .messageRight {
+  .messageLeft {
     text-align: left;
     font-size: 16px;
-  
     background-color: #397EF7;
     border-radius: 10px;
     padding: 10px;
     float: left;
-    width: 60%;
     color: white;
     font-family: "lato", sans-serif;
+    max-width: 60%;
   
   }
+  .scrollableContainer {
+    width: 100%;
+    overflow: scroll;
+    background-color: white;
+    bottom:0;
+    top:0;
+    position:fixed;
+    margin-bottom:100px;
+  }
+  
 
-  .subtext {
+  .messageContainer {
+    display: inline-block;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: white;
+  }
+
+  .subtextLeft {
     font-size: 10px;
     padding: 5px;
     color: white;
@@ -33,7 +51,7 @@
   
   }
   
-  .subtextLeft {
+  .subtextRight {
     font-size: 10px;
     padding: 5px;
     color: black;
