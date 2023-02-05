@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, createTheme } from '@mui/material/styles';
 import { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -31,48 +31,44 @@ import { TextField } from '@mui/material';
 import NestedList from '@/components/NestedList';
 import styles from '@/styles/index.module.css';
 import NoSsr from '@mui/material';
-
+import { Container, height, textAlign } from '@mui/system';
+import { Button } from '@mui/material';
+import Message from '@/components/Message';
+import SendIcon from '@mui/icons-material/Send';
+import Grid from '@mui/material/Grid';
 
 
 const drawerWidth = 240;
 
 
 
-const Message = styled('div')(({ props }) => ({
- 
-
-}));
-
 const Subtext = styled('div')(({ props }) => ({
 
-
 }));
-const MessageContainer = styled('div')(({  }) => ({
-
-  width: "60%"
-
-
+const MessageContainer = styled('div')(({ author }) => ({
+  width: "60%",
+  alignSelf: author !== 'User' ? 'flex-end' : 'flex-start'
 }));
 
+const PaperContainer = styled(Paper)({
+  alignItems: 'stretch',
+  justifyContent: "flex-start/flex-end",
+  padding: '20px'
+});
 
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    padding: theme.spacing(1),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(1),
+  width: "100%",
+  height: "100%",
+  position: "fixed",
+  backgroundColor: "white",
+  ...(open && {
+    marginRight: `+${drawerWidth}px`,
   }),
-);
+}));
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -102,31 +98,30 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 
-const StyledFab = styled(Fab)({
-  position: 'absolute',
-  zIndex: 1,
-  top: -30,
-  left: 0,
-  right: 0,
-  margin: '0 auto',
-});
 
-function BottomAppBar() {
+function BottomAppBar({ open, onSubmit, setMessageInput, messageInput }) {
   return (
     <React.Fragment>
-
-      <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
+      <AppBar open={open} position="fixed" sx={{ top: 'auto', bottom: 0, backgroundColor:"rgb(240,240,240)" }}>
         <Toolbar>
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <StyledFab color="secondary" aria-label="add">
-            <AddIcon />
-          </StyledFab>
-          <Box sx={{ flexGrow: 1 }} />
-          <IconButton color="inherit">
-            <SearchIcon />
-          </IconButton>
-          <IconButton color="inherit">
-            <MoreIcon />
+
+
+            
+          <form onSubmit={onSubmit}>
+            <TextField 
+            width="100%"
+              id="outlined-basic" 
+              label="Enter message..." 
+              variant="outlined" 
+              value={messageInput}
+              color='primary'
+              onChange={e => setMessageInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') onSubmit(e) }}
+            />
+          </form>
+<Box sx={{ flexGrow: 1 }} />
+          <IconButton color="black">
+            <SendIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -135,13 +130,14 @@ function BottomAppBar() {
 }
 
 
+
 export default function App() {
+  let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
+
   const [messageInput, setMessageInput] = useState("");
-  const [message, setMessage] = useState([]);
-  const [conversation , setConversation] = useState([]);
+  const [conversation, setConversation] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
-  let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
 
   useEffect(() => {
     if (!timestamp) {
@@ -156,6 +152,8 @@ export default function App() {
     setMessageInput("");
     let currentTimestamp = new Date().toLocaleString();
     setConversation([...conversation, { text: message, author: "User", timestamp: currentTimestamp }]);
+
+
 
     try {
       setIsLoading(true);
@@ -178,7 +176,16 @@ export default function App() {
 
       let currentTimestamp2 = new Date().toLocaleString();
 
-      setMessage([...conversation, { text: message, author: "User", timestamp: currentTimestamp }, { text: data.result, author: "StarburgerAI", timestamp: currentTimestamp2 }]);
+      setConversation([...conversation, {
+        text: message,
+        author: "User",
+        timestamp: currentTimestamp
+      },
+      {
+        text: data.result,
+        author: "StarburgerAI",
+        timestamp: currentTimestamp2
+      }]);
       setMessageInput("");
       setIsLoading(false);
     } catch (error) {
@@ -187,8 +194,22 @@ export default function App() {
     }
   }
 
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const theme = createTheme({
+    palette: {
+      primary: {
+        light: '#757ce8',
+        main: '#3f50b5',
+        dark: '#002884',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#ff7961',
+        main: '#f44336',
+        dark: '#ba000d',
+        contrastText: '#000',
+      },
+    },
+  });  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -199,10 +220,11 @@ export default function App() {
   };
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{backgroundColor:"rgb(240,240,240)"}}>
+
         <Toolbar>
           <IconButton
-            color="inherit"
+            color="black"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -235,47 +257,49 @@ export default function App() {
         <NestedList />
 
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+
       </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-        <Paper variant="outlined" style={{ height: '80vh', overflow: 'auto' }}>
-            <MessageContainer >
-              <Message author="RivalAI">
-                <ListItemText
-                  primary="I noticed you had a recent experience with one of our products or events 🤔"
-                  secondary="NOW"
-                />
-              </Message>
-              {conversation.map((message, index) => (
-                <Message key={index} author={message.author} >
-                  <ListItemText
-                    primary={
-                      message.text
-                    }
-                    secondary={<Subtext>{message.timestamp} - {message.author}</Subtext>}
-                  />
-                </Message>
-              ))}
-            </MessageContainer>
-          </Paper>
+
+     
+
+      <Main open={open} sx={{backgroundColor:"#f2f2f2"}}>
+      <DrawerHeader />
+
+        <div className={styles.messageContainer}>
+          <Message
+            author="StarburgerAI"
+            text="Hey... 👋"
+            timestamp={<NoSsr>{timestamp}</NoSsr>}>
+          </Message>
+        </div>
+        <div className={styles.messageContainer}>
+          <Message
+            author="StarburgerAI"
+            text="Thanks for jumping on to the Starburger feedback chat 🙏.  We are here to help and serve… 😃 What can we do for you?"
+            timestamp={<NoSsr>{timestamp}</NoSsr>}>
+          </Message>
+
+
+        {conversation.map((message, index) => (
+          <div key={index} className={styles.messageContainer}>
+              <div className={message.author === "User" ? styles.messageLeft : styles.messageRight}>
+                {message.text}
+                <div className={message.author === "User" ? styles.subtextLeft : styles.subtext}>
+                  {message.timestamp} - {message.author}
+                </div>
+              </div>
+          </div>
+        ))}
+
+        <div style={{ clear: "both" }}></div>
+
+      </div>
       </Main>
-      <BottomAppBar />
+
+
+
+      <BottomAppBar open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput}/>
 
     </Box>
-
-
-
   );
 }
