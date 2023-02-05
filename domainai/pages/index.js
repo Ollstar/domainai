@@ -120,7 +120,8 @@ function BottomAppBar({ open, onSubmit, setMessageInput, messageInput }) {
             />
           </form>
 <Box sx={{ flexGrow: 1 }} />
-          <IconButton color="black">
+          <IconButton color="black"
+          onClick={onSubmit}>
             <SendIcon />
           </IconButton>
         </Toolbar>
