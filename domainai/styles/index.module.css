@@ -1,0 +1,42 @@
+.messageLeft {
+    text-align: right;
+    background-color: #E9E9EB;
+    border-radius: 10px;
+    padding: 10px;
+    float: right;
+    width: 60%;
+    color: black;
+    font-family: "lato", sans-serif;
+    font-size: 16px;
+  
+  }
+  
+  .messageRight {
+    text-align: left;
+    font-size: 16px;
+  
+    background-color: rgb(102,35,35	);
+    border-radius: 10px;
+    padding: 10px;
+    float: left;
+    width: 60%;
+    color: white;
+    font-family: "lato", sans-serif;
+  
+  }
+
+  .subtext {
+    font-size: 10px;
+    padding: 5px;
+    color: white;
+    font-family: "lato", sans-serif;
+  
+  }
+  
+  .subtextLeft {
+    font-size: 10px;
+    padding: 5px;
+    color: black;
+    font-family: "lato", sans-serif;
+  
+  }
