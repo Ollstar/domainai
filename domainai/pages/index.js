@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, createTheme } from '@mui/material/styles';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState, useEffect, useRef } from "react";
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,6 +21,9 @@ import { NoSsr } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import Message from '@/components/Message.jsx';
 import { Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Head from 'next/head';
+
 
 
 const drawerWidth = 240;
@@ -82,9 +85,9 @@ export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, is
     <React.Fragment>
       <AppBar position="fixed" sx={{ bottom:"0",top:"auto", padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
         <Toolbar>
+<Grid container>
 
-
-
+<Grid item xs={10}>
           <form onSubmit={onSubmit}>
             <TextField
               id="outlined-basic"
@@ -95,18 +98,22 @@ export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, is
               disabled={isLoading}
               onChange={e => setMessageInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') onSubmit(e) }}
-            />
+            >
+          <Box sx={{ flexGrow: 1 }} />
+            </TextField>
           </form>
+</Grid>
+
           <Box sx={{ flexGrow: 1 }} />
             <IconButton 
               color="primary"
               aria-label="scroll back to top"
-              disabled={isLoading}
+              disabled={isLoading || open}
               onClick={onSubmit}
             >
               {isLoading ? <CircularProgress size={24}/> :  <SendIcon />}
             </IconButton>
-
+</Grid>
         </Toolbar>
       </AppBar>
     </React.Fragment>
@@ -199,6 +206,9 @@ export default function App(props) {
         dark: '#ba000d',
         contrastText: '#000',
       },
+      typography: {
+        fontFamily: 'Poppins',
+      }
     },
   }); const [open, setOpen] = React.useState(false);
 
@@ -210,6 +220,12 @@ export default function App(props) {
     setOpen(false);
   };
   return (
+    <ThemeProvider theme={theme}>
+      <Head>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+      </Head>
+
     <Box sx={{ display: 'flex' }}>
       <AppBar position="fixed" open={open} elevation={2} sx={{padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
 
@@ -301,6 +317,6 @@ export default function App(props) {
           <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput}/>
 
 </Box>
-    
+</ThemeProvider>
   );
 }
