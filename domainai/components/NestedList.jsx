@@ -8,9 +8,11 @@ import Collapse from '@mui/material/Collapse';
 import { ExpandMore, ExpandLess, ChevronRight, ChevronLeft } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
 import styles from "styles/index.module.css";
-import { Icon, IconButton } from '@mui/material';
+import { Divider, Icon, IconButton } from '@mui/material';
 import { fontFamily, fontSize } from '@mui/system';
 import DrawerSpacer from './DrawerSpacer';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import Stepper from '@/components/Stepper.jsx'
 
 export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose }) {
   const [open, setOpen] = React.useState({});
@@ -115,6 +117,14 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
     }
   ];
 
+  const handleBrainClick = (e) => {
+    
+
+    setOpen({});
+    handleDrawerClose();
+  };
+
+
   const handleClick = (entryPoint) => {
     setOpen({
       ...open,
@@ -138,14 +148,15 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
       component="nav"
       sx={{maxWidth: 240, bgcolor: 'background.paper'}}
       aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4}} component="div" id="nested-list-subheader">
+
+    >
+                        <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4}} component="div" id="nested-list-subheader">
           Quick Questions
         </ListSubheader>
-      }
-    >
       {data.map((group, groupIndex) => (
+        
         <React.Fragment key={groupIndex}>
+
           <ListItemButton  onClick={() => handleClick(group.group)}>
             <ListItemIcon>
               {open[group.group] ? <ExpandLess /> : <ExpandMore />}
@@ -176,15 +187,31 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
                           <ListItemText primaryTypographyProps={{ fontFamily: "poppins", fontSize: 10 }} primary={question} />
                         </ListItemButton>
                       ))}
+                      
                     </List>
+                    
                   </Collapse>
                 </React.Fragment>
               ))}
+              
             </List>
           </Collapse>
         </React.Fragment>
       ))}
+          <Divider />
+    <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4}} component="div" id="nested-list-subheader">
+    Admin
+  </ListSubheader>
+  <ListItemButton onClick={() => handleBrainClick()}>
+    <ListItemIcon>
+      <PsychologyIcon />
+    </ListItemIcon>
+    <ListItemText primaryTypographyProps={{ fontFamily: "poppins" }} primary="Model Traits" />
+  </ListItemButton>
+  
     </List>
+
+  
 
   );
 };
