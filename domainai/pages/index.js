@@ -115,7 +115,7 @@ export default function App(props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" fontFamily={"poppins"} color="black" overflow={"hidden"} component="div" sx={{ flexGrow: 1 }}>
-              StarburgerAI
+              Starburger GPT
             </Typography>
 
 
