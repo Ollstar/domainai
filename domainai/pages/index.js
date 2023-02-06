@@ -23,6 +23,7 @@ import Message from '@/components/Message.jsx';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Head from 'next/head';
+import Link from '@mui/material/Link';
 
 
 
@@ -110,7 +111,18 @@ export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, is
             >
               {isLoading ? <CircularProgress size={24} /> : <SendIcon />}
             </IconButton>
+            
         </Toolbar>
+        <footer>
+          <Typography variant="body2" color="text.secondary" align="center">
+            {'Built with ❤️ by '}
+            <Link color="inherit" href="https://rivaltech.com/">
+              Rival
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+          </Typography>
+        </footer>
       </AppBar>
     </React.Fragment>
   );
@@ -316,8 +328,11 @@ export default function App(props) {
         </Box>
 
         <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} />
+      
+
 
       </Box>
+
     </ThemeProvider>
   );
 }
