@@ -147,7 +147,6 @@ export default function App(props) {
           </DrawerSpacer>
           <Divider />
           <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
-          <Divider />
           <Avatar alt="powered by rival" src="/avatar/powerlogo.png" sx={{borderRadius:0, height:70,width:70, margin: "auto"}}/>
         </Drawer>
         <Box>
