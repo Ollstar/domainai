@@ -147,10 +147,11 @@ export default function App(props) {
           </DrawerSpacer>
           <Divider />
           <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
+          <Box sx={{ flexGrow: 1 }} />
           <Box
         component="img"
         sx={{
-          margin: "auto",
+          margin: "85px 85px 100px",
           maxWidth: { xs: drawerWidth-170, md: drawerWidth-170 },
         }}
         alt="The house from the offer."
