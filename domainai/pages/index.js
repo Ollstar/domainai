@@ -215,7 +215,7 @@ export default function App(props) {
 
         <Toolbar>
           <IconButton
-            color="primary"
+            color="black"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -223,13 +223,13 @@ export default function App(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="primary" noWrap component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" color="black" noWrap component="div" sx={{ flexGrow: 1 }}>
             DomainAI
           </Typography>
 
 
           <Box sx={{flexGrow: 1}} />
-          <Avatar alt="domainailogo.png" src="/logoai.png" />
+          <Avatar alt="domainailogo.png" src="/starb.png" />
         </Toolbar>
       </AppBar>
       <Drawer
