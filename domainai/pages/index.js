@@ -240,7 +240,9 @@ export default function App(props) {
       </Head>
 
       <Box sx={{ display: 'flex' }}>
-        <AppBar position="fixed" open={open} elevation={2} sx={{ padding: "5px", backgroundColor: "rgb(240,240,240)" }}>
+        <AppBar position="fixed"
+        
+        open={open} elevation={2} sx={{ padding: "5px", backgroundColor: "rgb(240,240,240)" }}>
 
           <Toolbar>
             <IconButton
@@ -252,7 +254,7 @@ export default function App(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" fontFamily={"poppins"} color="black" noWrap component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" fontFamily={"poppins"} color="black" overflow={"hidden"} component="div" sx={{ flexGrow: 1 }}>
               StarburgerAI
             </Typography>
 
