@@ -20,6 +20,8 @@ import styles from '@/styles/index.module.css';
 import { NoSsr } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import Message from '@/components/Message.jsx';
+import { Typography } from '@mui/material';
+
 
 const drawerWidth = 240;
 
@@ -221,6 +223,12 @@ export default function App(props) {
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h6" color="primary" noWrap component="div" sx={{ flexGrow: 1 }}>
+            DomainAI
+          </Typography>
+
+
+          <Box sx={{flexGrow: 1}} />
           <Avatar alt="domainailogo.png" src="/logoai.png" />
         </Toolbar>
       </AppBar>
