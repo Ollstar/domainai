@@ -2,17 +2,8 @@ import * as React from 'react';
 import { styled, createTheme } from '@mui/material/styles';
 import { useState, useEffect, useRef } from "react";
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
-import Fab from '@mui/material/Fab';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 import Avatar from '@mui/material/Avatar';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
@@ -23,51 +14,14 @@ import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import { CircularProgress, TextField } from '@mui/material';
 import NestedList from '@/components/NestedList';
 import styles from '@/styles/index.module.css';
 import { NoSsr } from '@mui/material';
-import { Container, height, textAlign } from '@mui/system';
-import { Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import Grid from '@mui/material/Grid';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Message from '@/components/Message.jsx';
-import SubmitButton from '@/components/SubmitButton';
+
 const drawerWidth = 240;
-
-function ScrollTop(props) {
-  const { children } = props;
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 100,
-  });
-
-  const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector(
-      '#back-to-top-anchor',
-    );
-
-    if (anchor) {
-      anchor.scrollIntoView({
-        block: 'end',
-      });
-    }
-  };
-
-  return (
-    <Box
-      onClick={handleClick}
-      role="presentation"
-    >
-      {children}
-    </Box>
-  );
-}
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
   padding: "10px",
@@ -119,7 +73,7 @@ const DrawerFooter = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, props, isLoading }) {
+export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, isLoading }) {
   return (
     <React.Fragment>
       <AppBar position="fixed" sx={{ bottom:"0",top:"auto", padding:"10px", backgroundColor: "rgb(240,240,240)" }}>
@@ -129,7 +83,6 @@ export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, pr
 
           <form onSubmit={onSubmit}>
             <TextField
-              width="100%"
               id="outlined-basic"
               label="Enter message..."
               variant="outlined"
@@ -141,7 +94,6 @@ export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, pr
             />
           </form>
           <Box sx={{ flexGrow: 1 }} />
-          <ScrollTop {...props}>
             <IconButton 
               color="primary"
               aria-label="scroll back to top"
@@ -151,7 +103,6 @@ export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, pr
               {isLoading ? <CircularProgress size={24}/> :  <SendIcon />}
             </IconButton>
 
-          </ScrollTop>
         </Toolbar>
       </AppBar>
     </React.Fragment>
@@ -219,7 +170,7 @@ export default function App(props) {
       },
       {
         text: data.result,
-        author: "StarburgerAI",
+        author: "DomainAI",
         timestamp: currentTimestamp2
       }]);
       setMessageInput("");
@@ -283,6 +234,8 @@ export default function App(props) {
         variant="persistent"
         anchor="left"
         open={open}
+        onClose={handleDrawerClose}
+
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -290,7 +243,7 @@ export default function App(props) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <NestedList />
+        <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
 
         <Divider />
 
@@ -302,14 +255,14 @@ export default function App(props) {
       <DrawerHeader/>
         <div className={styles.messageContainer}>
           <Message
-            author="StarburgerAI"
+            author="DomainAI"
             text="Hey... 👋"
             timestamp= {<NoSsr>{timestamp}</NoSsr>}>
           </Message>
         </div>
         <div className={styles.messageContainer}>
           <Message
-            author="StarburgerAI"
+            author="DomainAI"
             text="Thanks for jumping on to the Starburger feedback chat 🙏.  We are here to help and serve… 😃 What can we do for you?"
             timestamp= {<NoSsr>{timestamp}</NoSsr>}>
           </Message>
@@ -330,13 +283,12 @@ export default function App(props) {
         <DrawerFooter/>
 
       </Main>
-      <Toolbar id="back-to-top-anchor" />
 
 
       
     </Box>
 
-          <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} props={props} />
+          <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput}/>
 
 </Box>
     
