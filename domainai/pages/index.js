@@ -224,7 +224,7 @@ export default function App(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="black" noWrap component="div" sx={{ flexGrow: 1 }}>
-            DomainAI
+            StarburgerAI
           </Typography>
 
 
@@ -273,7 +273,7 @@ export default function App(props) {
         <div className={styles.messageContainer}>
           <Message
             author="DomainAI"
-            text="Thanks for jumping on to the DomainAI loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
+            text="Thanks for jumping on to the StarburgerAI loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
             timestamp= {<NoSsr>{timestamp}</NoSsr>}>
           </Message>
         </div>
