@@ -151,7 +151,7 @@ export default function App(props) {
         component="img"
         sx={{
           margin: "auto",
-          maxWidth: { xs: drawerWidth-100, md: drawerWidth-100 },
+          maxWidth: { xs: drawerWidth-170, md: drawerWidth-170 },
         }}
         alt="The house from the offer."
         src="/avatar/powerlogo.png"
