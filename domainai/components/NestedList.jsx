@@ -41,7 +41,9 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
         
           <ListItemButton key={`Company-${companyName}`} onClick={() => handleCompanyClick(companyName)}>
 
-            <ListItemText primary={companyName} />
+            <ListItemText 
+            fontFamily="Roboto"
+            primary={companyName} />
             {open[companyName] ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           
