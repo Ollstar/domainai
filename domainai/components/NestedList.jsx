@@ -6,6 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
+import ChatIcon from '@mui/icons-material/Chat';
 
 const companyNames = ['Apple', 'Amazon', 'Microsoft', 'Alphabet', 'Facebook', 'Tesla', 'Berkshire Hathaway', 'Vanguard Group', 'Procter & Gamble', 'Johnson & Johnson'];
 const questions = [
@@ -37,10 +38,13 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
     <List component="nav">
       {companyNames.map((companyName) => (
         <>
+        
           <ListItemButton key={`Company-${companyName}`} onClick={() => handleCompanyClick(companyName)}>
+
             <ListItemText primary={companyName} />
             {open[companyName] ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
+          
           <Collapse in={open[companyName]} timeout="auto" unmountOnExit>
             <List component="div">
               {questions.map((question, questionIndex) => (
