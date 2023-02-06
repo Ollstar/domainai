@@ -219,7 +219,7 @@ export default function App(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Avatar alt="walmartlogo.png" src="/avatar/walmartlogo.png" />
+          <Avatar alt="domainailogo.png" src="/logoai.png" />
         </Toolbar>
       </AppBar>
       <Drawer
