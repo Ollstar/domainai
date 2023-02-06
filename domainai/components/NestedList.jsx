@@ -164,7 +164,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           <ListItemButton
           key={questionIndex}
           button
-          onClick={() => handleQuestionClick(question)}
+          onClick={() => handleQuestionClick(question,entry.entryPoint)}
           >
           <ListItemIcon>
           <ChatIcon />
