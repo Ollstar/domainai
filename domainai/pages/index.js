@@ -147,7 +147,15 @@ export default function App(props) {
           </DrawerSpacer>
           <Divider />
           <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
-          <Avatar alt="powered by rival" src="/avatar/powerlogo.png" sx={{oveflow: "visible", width: 100,height: 100,borderRadius:0, margin: "auto"}}/>
+          <Box
+        component="img"
+        sx={{
+          margin: "auto",
+          maxWidth: { xs: drawerWidth-100, md: drawerWidth-100 },
+        }}
+        alt="The house from the offer."
+        src="/avatar/powerlogo.png"
+      />
         </Drawer>
         <Box>
           <Main ref={scrollableContainerRef}               onClick={open ? handleDrawerClose :  null}>
