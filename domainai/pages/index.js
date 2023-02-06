@@ -77,7 +77,7 @@ export default function App(props) {
       },
       {
         text: data.result,
-        author: "DomainAI",
+        author: "StarburgerAI",
         timestamp: currentTimestamp2
       }]);
       setMessageInput("");
@@ -147,7 +147,6 @@ export default function App(props) {
           </DrawerSpacer>
           <Divider />
           <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
-          <Box sx={{ flexGrow: 1 }} />
           <Box
         component="img"
         sx={{
@@ -160,6 +159,8 @@ export default function App(props) {
         alt="The house from the offer."
         src="/avatar/powerlogo.png"
       />
+                  <DrawerSpacer/>
+
         </Drawer>
         <Box>
           <Main ref={scrollableContainerRef}               onClick={open ? handleDrawerClose :  null}>
