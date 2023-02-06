@@ -78,6 +78,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   bottom: "0",
   top: "0",
   marginLeft:`-${drawerWidth}px`,
+  marginBottom: "56px",
+
 
   ...(open && {
     marginRight: `+${drawerWidth}px`,
@@ -109,11 +111,18 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
+const DrawerFooter = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
 
 export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, props, isLoading }) {
   return (
     <React.Fragment>
-      <AppBar position="fixed" sx={{ top: 'auto', bottom: "0", padding:"10px", backgroundColor: "rgb(240,240,240)" }}>
+      <AppBar position="fixed" sx={{ bottom:"0",top:"auto", padding:"10px", backgroundColor: "rgb(240,240,240)" }}>
         <Toolbar>
 
 
@@ -318,14 +327,17 @@ export default function App(props) {
         ))}
 
         <div style={{ clear: "both" }}></div>
+        <DrawerFooter/>
+
       </Main>
       <Toolbar id="back-to-top-anchor" />
 
 
       
-
     </Box>
+
           <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} props={props} />
+
 </Box>
     
   );
