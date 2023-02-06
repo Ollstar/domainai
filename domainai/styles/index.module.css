@@ -1,5 +1,5 @@
-
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
 .messageRight {
     text-align: right;
     background-color: #E9E9EB;
@@ -11,9 +11,9 @@
     max-width: 60%;
     font-family: poppins;
 
-  }
-  
-  .messageLeft {
+}
+
+.messageLeft {
     text-align: left;
     font-size: 16px;
     background-color: #397EF7;
@@ -23,42 +23,45 @@
     color: white;
     max-width: 60%;
     font-family: poppins;
+}
 
 
+.List {
+    font-family: poppins;
 
-  
-  }
-  .scrollableContainer {
+}
+
+
+.scrollableContainer {
     width: 100%;
     overflow: scroll;
     background-color: white;
-    position:absolute;
+    position: absolute;
     top: 0;
-    bottom:0;
-    padding:10px;
-  }
-  
+    bottom: 0;
+    padding: 10px;
+}
 
-  .messageContainer {
+
+.messageContainer {
     display: inline-block;
     margin-top: 10px;
     width: 100%;
     background-color: white;
-  }
+}
 
-  .subtextLeft {
+.subtextLeft {
     font-size: 10px;
     padding: 5px;
     color: white;
     font-family: poppins;
 
-  }
-  
-  .subtextRight {
+}
+
+.subtextRight {
     font-size: 10px;
     padding: 5px;
     color: black;
     font-family: poppins;
 
-  }
-
+}

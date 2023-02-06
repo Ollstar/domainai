@@ -6,129 +6,24 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import MuiAppBar from '@mui/material/AppBar';
+
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { CircularProgress, TextField } from '@mui/material';
 import NestedList from '@/components/NestedList';
 import styles from '@/styles/index.module.css';
 import { NoSsr } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import Message from '@/components/Message.jsx';
 import { Typography } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import Head from 'next/head';
-import Link from '@mui/material/Link';
-
+import { AppBar } from '@mui/material';
+import theme from '/styles/theme.js';
+import BottomAppBar from '@/components/BottomAppBar.jsx';
+import Main from '@/components/Main.jsx';
+import DrawerSpacer from '@/components/DrawerSpacer.jsx';
 
 
 const drawerWidth = 240;
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-  padding: "10px",
-  width: "100%",
-  position: "absolute",
-  backgroundColor: "white",
-  overflow: "scroll",
-  bottom: "0",
-  top: "0",
-  marginLeft: `-${drawerWidth}px`,
-  marginBottom: "56px",
-
-
-  ...(open && {
-    marginRight: `+${drawerWidth}px`,
-  }),
-}));
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '5px',
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
-const DrawerFooter = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '5px',
-
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
-
-export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, isLoading }) {
-  return (
-    <React.Fragment>
-      <AppBar position="fixed" sx={{ bottom: "0", top: "auto", padding: "5px", backgroundColor: "rgb(240,240,240)" }}>
-        <Toolbar>
-
-              <TextField
-                id="outlined-basic"
-                label="Enter message..."
-                variant="outlined"
-                fontFamily="typo"
-                value={messageInput}
-                color='primary'
-                disabled={isLoading}
-                onSubmit={onSubmit}
-                sx={{ width: "100%", backgroundColor: "white" }}
-                onChange={e => setMessageInput(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') onSubmit(e) }}
-              >
-              </TextField>
-
-            <Box sx={{ flexGrow: 1 }} />
-            <IconButton
-              color="primary"
-              aria-label="scroll back to top"
-              disabled={isLoading || open}
-              onClick={onSubmit}
-            >
-              {isLoading ? <CircularProgress size={24} /> : <SendIcon />}
-            </IconButton>
-            
-        </Toolbar>
-        <footer>
-          <Typography variant="body2" color="text.secondary" align="center">
-            {'Built with ❤️ by '}
-            <Link color="inherit" href="https://rivaltech.com/">
-              Rival
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-          </Typography>
-        </footer>
-      </AppBar>
-    </React.Fragment>
-  );
-}
-
-
 
 export default function App(props) {
   let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
@@ -144,7 +39,6 @@ export default function App(props) {
     }
     scrollableContainerRef.current.scrollTop = scrollableContainerRef.current.scrollHeight;
   }, [conversation, timestamp]);
-
   async function onSubmit(event, message = messageInput) {
     if (event && event.preventDefault) {
       event.preventDefault();
@@ -154,13 +48,7 @@ export default function App(props) {
     if (message !== "") {
       setConversation([...conversation, { text: message, author: "User", timestamp: currentTimestamp }]);
     }
-
-
-
     setMessageInput("");
-
-
-
     try {
       setIsLoading(true);
       const response = await fetch("/api/generate", {
@@ -200,30 +88,7 @@ export default function App(props) {
     }
   }
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        light: '#757ce8',
-        main: '#3f50b5',
-        dark: '#002884',
-        contrastText: '#fff',
-      },
-      secondary: {
-        light: '#ff7961',
-        main: '#f44336',
-        dark: '#ba000d',
-        contrastText: '#000',
-      },
-      root: {
-        fontFamily: 'Poppins'
-      },
-      messageLeft: {
-        backgroundColor: 'Poppins'
-      }, messageRight: {
-        backgroundColor: 'Poppins'
-      },
-    },
-  }); const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -233,24 +98,19 @@ export default function App(props) {
     setOpen(false);
   };
   return (
-    <ThemeProvider theme={theme}>
-      <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-      </Head>
 
       <Box sx={{ display: 'flex' }}>
-        <AppBar position="fixed"
-        
-        open={open} elevation={2} sx={{ padding: "5px", backgroundColor: "rgb(240,240,240)" }}>
+      <AppBar position="fixed" sx={{padding: "5px", zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: "rgb(240,240,240)" } }
+
+          open={open} elevation={2}>
 
           <Toolbar>
             <IconButton
               color="black"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={open ? handleDrawerClose :  handleDrawerOpen}
               edge="start"
-              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+              sx={{ mr: 2 }}
             >
               <MenuIcon />
             </IconButton>
@@ -278,22 +138,21 @@ export default function App(props) {
           onClose={handleDrawerClose}
 
         >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </DrawerHeader>
+          <DrawerSpacer >
+            <Box sx={{position:"fixed"}}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+          </Box>
+          </DrawerSpacer>
           <Divider />
           <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
-
           <Divider />
-
+          <Avatar alt="powered by rival" src="/avatar/powerlogo.png" sx={{borderRadius:0, height:70,width:70, margin: "auto"}}/>
         </Drawer>
-
         <Box>
-
-          <Main ref={scrollableContainerRef}  >
-            <DrawerHeader />
+          <Main ref={scrollableContainerRef}               onClick={open ? handleDrawerClose :  null}>
+            <DrawerSpacer />
             <div className={styles.messageContainer}>
               <Message
                 author="DomainAI"
@@ -319,22 +178,11 @@ export default function App(props) {
                 </Message>
               </div>
             ))}
-
             <div style={{ clear: "both" }}></div>
-            <DrawerFooter />
-
+            <DrawerSpacer />
           </Main>
-
-
-
         </Box>
-
-        <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} />
-      
-
-
+        <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} handleDrawerClose={handleDrawerClose} handleDrawerOpen={handleDrawerOpen} />
       </Box>
-
-    </ThemeProvider>
   );
 }

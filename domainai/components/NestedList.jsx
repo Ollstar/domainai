@@ -7,6 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
+import styles from "styles/index.module.css";
 
 const companyNames = ['Apple', 'Amazon', 'Microsoft', 'Alphabet', 'Facebook', 'Tesla', 'Berkshire Hathaway', 'Vanguard Group', 'Procter & Gamble', 'Johnson & Johnson'];
 const questions = [
@@ -30,35 +31,41 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
   const handleCompanyClick = (index) => {
     setOpen({
       ...open,
+      scrollTop: open[index] ? 0 : open[index],
       [index]: !open[index],
+      open: !open[index],
     });
   };
 
   return (
-    <List component="nav">
-      {companyNames.map((companyName) => (
-        <>
-        
-          <ListItemButton key={`Company-${companyName}`} onClick={() => handleCompanyClick(companyName)}>
+    <List
+      component="nav"
+      sx={{
+        position: 'relative',
+        overflow: 'auto',
+      }}>
 
-            <ListItemText 
-            fontFamily="Roboto"
-            primary={companyName} />
-            {open[companyName] ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          
-          <Collapse in={open[companyName]} timeout="auto" unmountOnExit>
-            <List component="div">
+     {companyNames.map((company, index) => (
+        <React.Fragment key={`company-${index}`}>
+         <ListSubheader 
+         onClick={() => handleCompanyClick(index)}>
+                  <ListItemText     primaryTypographyProps={{fontFamily: 'poppins'}} 
+ sx={{fontFamily:"poppins"}} inset primary={company} />          </ListSubheader>
+
+          <Collapse in={open[index]} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
               {questions.map((question, questionIndex) => (
-                <ListItemButton
-                  key={`Question ${questionIndex} for Company ${companyName}`}
-                  onClick={(e) => handleOptionsClick(companyName, question, e)}>
-                  <ListItemText primary={question} />
+                <ListItemButton 
+                  key={`question-${questionIndex}`}
+                  onClick={(e) => handleOptionsClick(company, question, e)}
+                >
+                  <ListItemText     primaryTypographyProps={{fontFamily: 'poppins'}} 
+ sx={{fontFamily:"poppins"}} inset primary={question} />
                 </ListItemButton>
               ))}
             </List>
           </Collapse>
-        </>
+        </React.Fragment>
       ))}
     </List>
   );
