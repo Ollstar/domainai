@@ -209,7 +209,7 @@ export default function App(props) {
   };
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open} sx={{padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
+      <AppBar position="fixed" open={open} elevation={2} sx={{padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
 
         <Toolbar>
           <IconButton
