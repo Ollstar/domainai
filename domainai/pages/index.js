@@ -60,7 +60,7 @@ const AppBar = styled(MuiAppBar, {
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(0, 1),
+  padding: '5px',  
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
@@ -68,6 +68,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const DrawerFooter = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  padding: '5px',  
+
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
@@ -76,7 +78,7 @@ const DrawerFooter = styled('div')(({ theme }) => ({
 export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, isLoading }) {
   return (
     <React.Fragment>
-      <AppBar position="fixed" sx={{ bottom:"0",top:"auto", padding:"10px", backgroundColor: "rgb(240,240,240)" }}>
+      <AppBar position="fixed" sx={{ bottom:"0",top:"auto", padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
         <Toolbar>
 
 
@@ -207,11 +209,11 @@ export default function App(props) {
   };
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open} sx={{padding:"10px", backgroundColor: "rgb(240,240,240)" }}>
+      <AppBar position="fixed" open={open} sx={{padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
 
         <Toolbar>
           <IconButton
-            color="black"
+            color="primary"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
