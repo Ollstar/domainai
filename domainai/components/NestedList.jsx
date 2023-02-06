@@ -10,6 +10,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import styles from "styles/index.module.css";
 import { Icon, IconButton } from '@mui/material';
 import { fontFamily, fontSize } from '@mui/system';
+import DrawerSpacer from './DrawerSpacer';
 
 export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose }) {
   const [open, setOpen] = React.useState({});
@@ -18,7 +19,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
       group: "Ordering",
       entries: [
         {
-          entryPoint: "In-store ordering",
+          entryPoint: "in-store ordering",
           questions: [
             "What menu items are available for in-store ordering?",
             "Is there a wait time for ordering at the counter?",
@@ -27,7 +28,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           ]
         },
         {
-          entryPoint: "Drive-thru ordering",
+          entryPoint: "drive-thru ordering",
           questions: [
             "What menu items are available for drive-thru ordering?",
             "Is there a wait time for drive-thru ordering?",
@@ -36,7 +37,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           ]
         },
         {
-          entryPoint: "Online ordering through website",
+          entryPoint: "online ordering through website",
           questions: [
             "What menu items are available for online ordering?",
             "Can I place a custom order through the website?",
@@ -45,7 +46,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           ]
         },
         {
-          entryPoint: "Mobile app ordering",
+          entryPoint: "mobile app ordering",
           questions: [
             "What menu items are available for ordering through the mobile app?",
             "Can I place a custom order through the mobile app?",
@@ -59,7 +60,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
       group: "Delivery",
       entries: [
         {
-          entryPoint: "Delivery through third-party services",
+          entryPoint: "delivery through third-party services",
           questions: [
             "What third-party delivery services are available?",
             "What menu items are available for delivery?",
@@ -68,7 +69,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           ]
         },
         {
-          entryPoint: "Catering services",
+          entryPoint: "catering services",
           questions: [
             "What catering services are available?",
             "What menu items are available for catering?",
@@ -82,7 +83,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
       group: "Dining",
       entries: [
         {
-          entryPoint: "In-store dining",
+          entryPoint: "in-store dining",
           questions: [
             "What menu items are available for in-store dining?",
             "Is there a wait time for seating?",
@@ -92,7 +93,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           ]
         },
         {
-          entryPoint: "Outdoor dining",
+          entryPoint: "tutdoor dining",
           questions: [
             "What menu items are available for outdoor dining?",
             "Is there a wait time for outdoor seating?",
@@ -102,7 +103,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           ]
         },
         {
-          entryPoint: "Takeout",
+          entryPoint: "takeout",
           questions: [
             "What menu items are available for takeout?",
             "Is there a wait time for takeout orders?",
@@ -119,13 +120,15 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
       ...open,
       [entryPoint]: !open[entryPoint]
     });
+    
   };
 
   const handleQuestionClick = (entryPoints, question, e) => {
-    setMessageInput(`${entryPoints} - ${question}`);
+    const message = `For ${entryPoints}. ${question}`;
+    setMessageInput(message);
     setTimeout(() => {
-      onSubmit(e, `${entryPoints} - ${question}`);
-    }, 500);
+      onSubmit(e, message);
+    }, 100);
     setOpen({});
     handleDrawerClose();
   };
@@ -133,10 +136,10 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
   return (
     <List
       component="nav"
-      sx={{bgcolor: "#f5f5f5", width: 300, maxWidth: 360, bgcolor: 'background.paper'}}
+      sx={{maxWidth: 240, bgcolor: 'background.paper'}}
       aria-labelledby="nested-list-subheader"
       subheader={
-        <ListSubheader sx={{ fontFamily: "poppins", marginTop: 5}} component="div" id="nested-list-subheader">
+        <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4}} component="div" id="nested-list-subheader">
           Quick Questions
         </ListSubheader>
       }
@@ -165,7 +168,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
                         <ListItemButton
                           key={questionIndex}
                           
-                          onClick={() => handleQuestionClick(question, entry.entryPoint)}
+                          onClick={() => handleQuestionClick(entry.entryPoint,question)}
                         >
                           <ListItemIcon>
                             <ChatIcon />
@@ -182,5 +185,6 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
         </React.Fragment>
       ))}
     </List>
+
   );
 };
