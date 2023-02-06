@@ -47,8 +47,8 @@ const BottomAppBar = ({ open, onSubmit, setMessageInput, messageInput, isLoading
   
           </Toolbar>
           <footer>
-            <Typography variant="body2" fontFamily={"poppins"} color="text.secondary" align="center">
-              {'Built with ❤️ by '}
+            <Typography variant="body2" fontSize={8} fontFamily={"poppins"} color="text.secondary" align="center">
+              {'Powered by '}
               <Link color="inherit" href="https://rivaltech.com/">
                 Rival
               </Link>{' '}

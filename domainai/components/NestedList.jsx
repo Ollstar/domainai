@@ -9,6 +9,7 @@ import { ExpandMore, ExpandLess, ChevronRight, ChevronLeft } from '@mui/icons-ma
 import ChatIcon from '@mui/icons-material/Chat';
 import styles from "styles/index.module.css";
 import { Icon, IconButton } from '@mui/material';
+import { fontFamily, fontSize } from '@mui/system';
 
 export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose }) {
   const [open, setOpen] = React.useState({});
@@ -125,6 +126,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
             setTimeout(() => {
               onSubmit(e, `${entryPoints} - ${question}`);
             }, 500);
+            setOpen({});
             handleDrawerClose();
           };
           
@@ -133,7 +135,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           component="nav"
           aria-labelledby="nested-list-subheader"
           subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
+          <ListSubheader sx={{fontFamily:"poppins"}} component="div" id="nested-list-subheader">
           Quick Questions
           </ListSubheader>
           }
@@ -144,7 +146,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           <ListItemIcon>
           {open[group.group] ? <ExpandLess /> : <ExpandMore />}
           </ListItemIcon>
-          <ListItemText primary={group.group} />
+          <ListItemText primaryTypographyProps={{fontFamily:"poppins"}} primary={group.group} />
           </ListItemButton>
           <Collapse in={open[group.group]} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -154,7 +156,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           <ListItemIcon>
           {open[entry.entryPoint] ? <ChevronLeft /> : <ChevronRight />}
           </ListItemIcon>
-          <ListItemText primary={entry.entryPoint} />
+          <ListItemText primaryTypographyProps={{fontFamily:"poppins", fontSize:12}} primary={entry.entryPoint} />
           </ListItemButton>
           <Collapse in={open[entry.entryPoint]} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -167,7 +169,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           <ListItemIcon>
           <ChatIcon />
           </ListItemIcon>
-          <ListItemText primary={question} />
+          <ListItemText primaryTypographyProps={{fontFamily:"poppins", fontSize:10}} primary={question} />
           </ListItemButton>
 ))}
 </List>

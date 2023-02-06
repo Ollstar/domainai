@@ -147,7 +147,7 @@ export default function App(props) {
           </DrawerSpacer>
           <Divider />
           <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
-          <Avatar alt="powered by rival" src="/avatar/powerlogo.png" sx={{borderRadius:0, height:70,width:70, margin: "auto"}}/>
+          <Avatar alt="powered by rival" src="/avatar/powerlogo.png" sx={{oveflow: "visible",borderRadius:0, margin: "auto"}}/>
         </Drawer>
         <Box>
           <Main ref={scrollableContainerRef}               onClick={open ? handleDrawerClose :  null}>
