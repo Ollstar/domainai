@@ -133,6 +133,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
   return (
     <List
       component="nav"
+      sx={{bgcolor: "#f5f5f5", width: 300, maxWidth: 360, bgcolor: 'background.paper'}}
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader sx={{ fontFamily: "poppins", marginTop: 5}} component="div" id="nested-list-subheader">
@@ -142,7 +143,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
     >
       {data.map((group, groupIndex) => (
         <React.Fragment key={groupIndex}>
-          <ListItemButton button onClick={() => handleClick(group.group)}>
+          <ListItemButton  onClick={() => handleClick(group.group)}>
             <ListItemIcon>
               {open[group.group] ? <ExpandLess /> : <ExpandMore />}
             </ListItemIcon>
@@ -152,7 +153,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
             <List component="div" disablePadding>
               {group.entries.map((entry, entryIndex) => (
                 <React.Fragment key={entryIndex}>
-                  <ListItemButton button onClick={() => handleClick(entry.entryPoint)}>
+                  <ListItemButton onClick={() => handleClick(entry.entryPoint)}>
                     <ListItemIcon>
                       {open[entry.entryPoint] ? <ChevronLeft /> : <ChevronRight />}
                     </ListItemIcon>
@@ -163,7 +164,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
                       {entry.questions.map((question, questionIndex) => (
                         <ListItemButton
                           key={questionIndex}
-                          button
+                          
                           onClick={() => handleQuestionClick(question, entry.entryPoint)}
                         >
                           <ListItemIcon>

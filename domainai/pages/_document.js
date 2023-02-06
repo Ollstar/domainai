@@ -10,7 +10,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-        <link rel="shortcut icon" type="image/x-icon" href="/public/favicon.ico"/>
+        <link rel="shortcut icon" href="/public/favicon.ico" />
 
       </Head>
       <body>
