@@ -120,10 +120,12 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           });
           };
           
-          const handleQuestionClick = (question) => {
-          setMessageInput(question);
-          onSubmit();
-          handleDrawerClose();
+          const handleQuestionClick = (entryPoints, question, e) => {
+            setMessageInput(`${entryPoints} - ${question}`);
+            setTimeout(() => {
+              onSubmit(e, `${entryPoints} - ${question}`);
+            }, 500);
+            handleDrawerClose();
           };
           
           return (
