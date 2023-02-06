@@ -36,7 +36,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   overflow: "scroll",
   bottom: "0",
   top: "0",
-  marginLeft:`-${drawerWidth}px`,
+  marginLeft: `-${drawerWidth}px`,
   marginBottom: "56px",
 
 
@@ -65,7 +65,7 @@ const AppBar = styled(MuiAppBar, {
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: '5px',  
+  padding: '5px',
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
@@ -73,7 +73,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const DrawerFooter = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: '5px',  
+  padding: '5px',
 
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -83,37 +83,33 @@ const DrawerFooter = styled('div')(({ theme }) => ({
 export function BottomAppBar({ open, onSubmit, setMessageInput, messageInput, isLoading }) {
   return (
     <React.Fragment>
-      <AppBar position="fixed" sx={{ bottom:"0",top:"auto", padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
+      <AppBar position="fixed" sx={{ bottom: "0", top: "auto", padding: "5px", backgroundColor: "rgb(240,240,240)" }}>
         <Toolbar>
-<Grid container>
 
-<Grid item xs={10}>
-          <form onSubmit={onSubmit}>
-            <TextField
-              id="outlined-basic"
-              label="Enter message..."
-              variant="outlined"
-              value={messageInput}
-              color='primary'
-              disabled={isLoading}
-              onChange={e => setMessageInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') onSubmit(e) }}
-            >
-          <Box sx={{ flexGrow: 1 }} />
-            </TextField>
-          </form>
-</Grid>
+              <TextField
+                id="outlined-basic"
+                label="Enter message..."
+                variant="outlined"
+                fontFamily="typo"
+                value={messageInput}
+                color='primary'
+                disabled={isLoading}
+                onSubmit={onSubmit}
+                sx={{ width: "100%", backgroundColor: "white" }}
+                onChange={e => setMessageInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') onSubmit(e) }}
+              >
+              </TextField>
 
-          <Box sx={{ flexGrow: 1 }} />
-            <IconButton 
+            <Box sx={{ flexGrow: 1 }} />
+            <IconButton
               color="primary"
               aria-label="scroll back to top"
               disabled={isLoading || open}
               onClick={onSubmit}
             >
-              {isLoading ? <CircularProgress size={24}/> :  <SendIcon />}
+              {isLoading ? <CircularProgress size={24} /> : <SendIcon />}
             </IconButton>
-</Grid>
         </Toolbar>
       </AppBar>
     </React.Fragment>
@@ -206,9 +202,14 @@ export default function App(props) {
         dark: '#ba000d',
         contrastText: '#000',
       },
-      typography: {
-        fontFamily: 'Poppins',
-      }
+      root: {
+        fontFamily: 'Poppins'
+      },
+      messageLeft: {
+        backgroundColor: 'Poppins'
+      }, messageRight: {
+        backgroundColor: 'Poppins'
+      },
     },
   }); const [open, setOpen] = React.useState(false);
 
@@ -222,101 +223,101 @@ export default function App(props) {
   return (
     <ThemeProvider theme={theme}>
       <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
       </Head>
 
-    <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open} elevation={2} sx={{padding:"5px", backgroundColor: "rgb(240,240,240)" }}>
+      <Box sx={{ display: 'flex' }}>
+        <AppBar position="fixed" open={open} elevation={2} sx={{ padding: "5px", backgroundColor: "rgb(240,240,240)" }}>
 
-        <Toolbar>
-          <IconButton
-            color="black"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" color="black" noWrap component="div" sx={{ flexGrow: 1 }}>
-            StarburgerAI
-          </Typography>
+          <Toolbar>
+            <IconButton
+              color="black"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" fontFamily={"poppins"} color="black" noWrap component="div" sx={{ flexGrow: 1 }}>
+              StarburgerAI
+            </Typography>
 
 
-          <Box sx={{flexGrow: 1}} />
-          <Avatar alt="domainailogo.png" src="/starb.png" />
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+            <Box sx={{ flexGrow: 1 }} />
+            <Avatar alt="domainailogo.png" src="/starb.png" />
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        onClose={handleDrawerClose}
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          onClose={handleDrawerClose}
 
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
 
-        <Divider />
+          <Divider />
 
-      </Drawer>
+        </Drawer>
 
-      <Box>
+        <Box>
 
-      <Main ref={scrollableContainerRef}  >
-      <DrawerHeader/>
-        <div className={styles.messageContainer}>
-          <Message
-            author="DomainAI"
-            text="Hey... 👋"
-            timestamp= {<NoSsr>{timestamp}</NoSsr>}>
-          </Message>
-        </div>
-        <div className={styles.messageContainer}>
-          <Message
-            author="DomainAI"
-            text="Thanks for jumping on to the StarburgerAI loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
-            timestamp= {<NoSsr>{timestamp}</NoSsr>}>
-          </Message>
-        </div>
+          <Main ref={scrollableContainerRef}  >
+            <DrawerHeader />
+            <div className={styles.messageContainer}>
+              <Message
+                author="DomainAI"
+                text="Hey... 👋"
+                timestamp={<NoSsr>{timestamp}</NoSsr>}>
+              </Message>
+            </div>
+            <div className={styles.messageContainer}>
+              <Message
+                author="DomainAI"
+                text="Thanks for jumping on to the StarburgerAI loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
+                timestamp={<NoSsr>{timestamp}</NoSsr>}>
+              </Message>
+            </div>
 
-        {conversation.map((message, index) => (
-          <div key={index} className={styles.messageContainer} >
-                     <Message
-                     className = {message.author === "User" ? styles.messageRight : styles.messageLeft}
-            author={message.author}
-            text={message.text}
-            timestamp={message.timestamp}>
-          </Message>
-          </div>
-        ))}
+            {conversation.map((message, index) => (
+              <div key={index} className={styles.messageContainer} >
+                <Message
+                  className={message.author === "User" ? styles.messageRight : styles.messageLeft}
+                  author={message.author}
+                  text={message.text}
+                  timestamp={message.timestamp}>
+                </Message>
+              </div>
+            ))}
 
-        <div style={{ clear: "both" }}></div>
-        <DrawerFooter/>
+            <div style={{ clear: "both" }}></div>
+            <DrawerFooter />
 
-      </Main>
+          </Main>
 
 
-      
-    </Box>
 
-          <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput}/>
+        </Box>
 
-</Box>
-</ThemeProvider>
+        <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} />
+
+      </Box>
+    </ThemeProvider>
   );
 }

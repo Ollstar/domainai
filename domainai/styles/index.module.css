@@ -1,3 +1,5 @@
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
 .messageRight {
     text-align: right;
     background-color: #E9E9EB;
@@ -5,9 +7,9 @@
     padding: 10px;
     float: right;
     color: black;
-    font-family: "lato", sans-serif;
     font-size: 16px;
     max-width: 60%;
+    font-family: poppins;
 
   }
   
@@ -19,8 +21,11 @@
     padding: 10px;
     float: left;
     color: white;
-    font-family: "lato", sans-serif;
     max-width: 60%;
+    font-family: poppins;
+
+
+
   
   }
   .scrollableContainer {
@@ -45,14 +50,15 @@
     font-size: 10px;
     padding: 5px;
     color: white;
-    font-family: "lato", sans-serif;
-  
+    font-family: poppins;
+
   }
   
   .subtextRight {
     font-size: 10px;
     padding: 5px;
     color: black;
-    font-family: "lato", sans-serif;
-  
+    font-family: poppins;
+
   }
+
