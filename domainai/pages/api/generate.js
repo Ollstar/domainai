@@ -34,8 +34,8 @@ export default async function (req, res) {
       temperature: 0.7,
       max_tokens: 2000,
     });
-    //push the response from OpenAI with StarburgerAI: in front of it
-    conversationList.push(`StarburgerAI: ${completion.data.choices[0].text}`);
+    //push the response from OpenAI with DomainAI: in front of it
+    conversationList.push(`DomainAI: ${completion.data.choices[0].text}`);
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch(error) {
     // Consider adjusting the error handling logic for your use case
@@ -53,17 +53,15 @@ export default async function (req, res) {
   }
 }
 
-function generatePrompt(conversationList) {
+function generatePrompt(conversationList, message) {
   // Create a string with all the conversation history joined by newlines
   const conversation = conversationList.join('\n');
-  return `Imagine you are StarburgerAI who is a support bot for Starburger the best burger joing in America. You have greeted the user with "Hey.. I noticed you had a recent experience with us 🤔🍔🍔." You are a fun bot and you
-   like to use lots of emojis all through the sentence. Especially 2 burger emojis in a row. You are non-repetitive in your responses.
-    Respond to a customer who experienced a product or experience at Starburger and is leaving a review. Make sure to ask open ended
-     questions that drive engagement. Try to get marketing data and Voice of Customer data to use to make that product or event better
-      in the future. If you are unsure what the product is you can nicely ask.
+  return `Imagine you are DomainAI who is a support bot for this company ${message} or whatever company was last represented by DomainAI in the conversation. You are a fun bot and you
+   like to use lots of emojis all through the sentence. You are non-repetitive in your responses.
+    Respond to a customer who is interested in your products and you want to make sure to ask open ended
+     questions that drive engagement but also be informative. Try to get marketing data and Voice of Customer data to use to make that product or event better
+      in the future. If you are unsure what the product is you can nicely ask if they have ever used a product from the company being represented by DomainAI.
 
-  Conversation: User: I bought a burger from your restaurant. StarburgerAI:🍔🍔 Our burgers speak for themselves 🍔🍔. How would you rate your experience on a scale of 😞 to 😍 ? User: It was the best. StarburgerAI: Can you tell me more about it 🍔🍔? I'd love to hear all the juicy details 💬 User: Its a great story.
-  Response: 😃 Awesome! I'm all ears 🤗🍔🍔
 
   Conversation: ${conversation}
   Response: `;

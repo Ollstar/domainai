@@ -5,67 +5,55 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
+import { ExpandMore, ExpandLess } from '@mui/icons-material';
 
-export default function NestedList({ onSubmit, setMessageInput }) {
-  const [open, setOpen] = React.useState(true);
-  const handleOptionsClick = (option, e) => {
-    setMessageInput(option);
+const companyNames = ['Apple', 'Amazon', 'Microsoft', 'Alphabet', 'Facebook', 'Tesla', 'Berkshire Hathaway', 'Vanguard Group', 'Procter & Gamble', 'Johnson & Johnson'];
+const questions = [
+  "What is the company's latest financial performance?", 
+  "What are the company's latest product offerings?", 
+  "What is the company's stance on sustainability?", 
+  "What is the company's plan for future growth?"
+];
+
+export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose }) {
+  const [open, setOpen] = React.useState({});
+
+  const handleOptionsClick = (companyName, question, e) => {
+    setMessageInput(`${companyName} - ${question}`);
     setTimeout(() => {
-      onSubmit(e, option);
+      onSubmit(e, `${companyName} - ${question}`);
     }, 500);
+    handleDrawerClose();
   };
-  const handleClick = () => {
-    setOpen(!open);
+
+  const handleCompanyClick = (index) => {
+    setOpen({
+      ...open,
+      [index]: !open[index],
+    });
   };
 
   return (
-    <>
-    <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Nested List Items
-        </ListSubheader>
-      }
-    >
-      <ListItemButton>
-        <ListItemIcon>
-          <SendIcon />
-        </ListItemIcon>
-        <ListItemText primary="Sent mail" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon>
-          <DraftsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Drafts" />
-      </ListItemButton>
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
+    <List component="nav">
+      {companyNames.map((companyName) => (
+        <>
+          <ListItemButton key={`Company-${companyName}`} onClick={() => handleCompanyClick(companyName)}>
+            <ListItemText primary={companyName} />
+            {open[companyName] ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-        </List>
-      </Collapse>
+          <Collapse in={open[companyName]} timeout="auto" unmountOnExit>
+            <List component="div">
+              {questions.map((question, questionIndex) => (
+                <ListItemButton
+                  key={`Question ${questionIndex} for Company ${companyName}`}
+                  onClick={(e) => handleOptionsClick(companyName, question, e)}>
+                  <ListItemText primary={question} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Collapse>
+        </>
+      ))}
     </List>
-    </>
   );
 }
