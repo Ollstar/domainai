@@ -135,7 +135,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
-        <ListSubheader sx={{ fontFamily: "poppins" }} component="div" id="nested-list-subheader">
+        <ListSubheader sx={{ fontFamily: "poppins", marginTop: 5}} component="div" id="nested-list-subheader">
           Quick Questions
         </ListSubheader>
       }

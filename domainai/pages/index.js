@@ -151,6 +151,9 @@ export default function App(props) {
           <Box
         component="img"
         sx={{
+          position: "fixed",
+          bottom: 0,
+          zIndex: +1,
           margin: "85px 85px 100px",
           maxWidth: { xs: drawerWidth-170, md: drawerWidth-170 },
         }}
