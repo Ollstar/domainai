@@ -30,7 +30,7 @@ export default function App(props) {
   let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
 
   const [messageInput, setMessageInput] = useState("");
-  const [prependageMessage, setPrependageMessage] = useState("");
+  const [prependageMessage, setPrependageMessage] = useState("Imagine you are StarburgerAI who is a support bot for Starburger. You are a fun bot and you like to use lots of emojis all through the sentence including double hamburger emojis. You are non-repetitive in your responses.");
   const [behaviourList, setBehaviourList] = useState([]);
   const [questionList, setQustionList] = useState([]);
 
@@ -46,7 +46,7 @@ export default function App(props) {
     scrollableContainerRef.current.scrollTop = scrollableContainerRef.current.scrollHeight;
   }, [conversation, timestamp]);
 
-  async function onSubmit(event, message = messageInput) {
+  async function onSubmit(event, message = messageInput, prependageMessage = prependageMessage) {
     if (event && event.preventDefault) {
       event.preventDefault();
     }
@@ -63,7 +63,7 @@ export default function App(props) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, prependageMessage }),
       });
       if (message === "") {
         setIsLoading(false);
@@ -157,6 +157,7 @@ export default function App(props) {
           onSubmit={onSubmit} 
           setMessageInput={setMessageInput} 
           handleDrawerClose={handleDrawerClose} 
+          prependageMessage={prependageMessage}
           setPrependageMessage={setPrependageMessage}
           setBehaviourList={setBehaviourList}
           setQuestionList={setQustionList} />

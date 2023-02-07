@@ -26,6 +26,9 @@ export default async function (req, res) {
     });
     return;
   }
+  const prependageMessage = req.body.prependageMessage || '';
+  {(prependageMessage.trim().length === 0) ? prependageMessage = "Testing" : prependageMessage = prependageMessage;}
+
   conversationList.push(`User: ${message}`);
   try {
     const completion = await openai.createCompletion({
@@ -53,7 +56,7 @@ export default async function (req, res) {
   }
 }
 
-function generatePrompt(conversationList, message) {
+function generatePrompt(conversationList, message, prependageMessage) {
   // Create a string with all the conversation history joined by newlines
   const conversation = conversationList.join('\n');
   return `Imagine you are StarburgerAI who is a support bot for Starburger. You are a fun bot and you
