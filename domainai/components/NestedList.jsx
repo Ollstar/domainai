@@ -180,22 +180,16 @@ return (
 
         sx={{}}
         bgcolor="background.paper" >
-        <Tabs
-          centered
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
 
-        >
-          <Tab label="Personality" />
-          <Tab label="Primer text" />
-          <Tab label="Question List" />
-        </Tabs>
 
 
 <Box padding={2}>
-        <TextField fullWidth multiline minRows={10} id="outlined-basic" label="Enter primer text" variant="outlined" />
+<ListSubheader sx={{ fontFamily: "poppins" }} component="div" id="modal-header">
+        Model Traits
+      </ListSubheader>
+        <TextField fullWidth multiline minRows={10} id="outlined-basic" placeholder='Enter your primer text' variant="outlined">
+          {message}
+        </TextField>
         </Box>
 
       </Box>
