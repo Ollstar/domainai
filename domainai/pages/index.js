@@ -21,6 +21,7 @@ import theme from '/styles/theme.js';
 import BottomAppBar from '@/components/BottomAppBar.jsx';
 import Main from '@/components/Main.jsx';
 import DrawerSpacer from '@/components/DrawerSpacer.jsx';
+import Stepper from '@mui/material';
 
 
 const drawerWidth = 240;
@@ -29,6 +30,11 @@ export default function App(props) {
   let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
 
   const [messageInput, setMessageInput] = useState("");
+  const [appendageMessage, setAppendageMessage] = useState("");
+  const [behaviourList, setBehaviourList] = useState([]);
+  const [questionList, setQustionList] = useState([]);
+
+
   const [conversation, setConversation] = useState([]);
   const scrollableContainerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -146,7 +152,13 @@ export default function App(props) {
           </Box>
           </DrawerSpacer>
           <Divider />
-          <NestedList onSubmit={onSubmit} setMessageInput={setMessageInput} handleDrawerClose={handleDrawerClose} />
+          <NestedList 
+          onSubmit={onSubmit} 
+          setMessageInput={setMessageInput} 
+          handleDrawerClose={handleDrawerClose} 
+          setAppendageMessage={setAppendageMessage}
+          setBehaviourList={setBehaviourList}
+          setQuestionList={setQustionList} />
           <Box
         component="img"
         sx={{

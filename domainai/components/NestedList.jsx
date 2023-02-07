@@ -8,14 +8,20 @@ import Collapse from '@mui/material/Collapse';
 import { ExpandMore, ExpandLess, ChevronRight, ChevronLeft } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
 import styles from "styles/index.module.css";
-import { Divider, Icon, IconButton } from '@mui/material';
+import { Divider, Icon, IconButton, Modal, Step } from '@mui/material';
 import { fontFamily, fontSize } from '@mui/system';
 import DrawerSpacer from './DrawerSpacer';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import Stepper from '@/components/Stepper.jsx'
+import {Box} from '@mui/material';
+import {Typography} from '@mui/material';
+import { useState } from 'react';
 
-export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose }) {
+export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose, setAppendageMessage, setBehaviourList, setQuestionList }) {
   const [open, setOpen] = React.useState({});
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
   const data = [
     {
       group: "Ordering",
@@ -118,10 +124,9 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
   ];
 
   const handleBrainClick = (e) => {
-    
+    setModalOpen(true);
 
     setOpen({});
-    handleDrawerClose();
   };
 
 
@@ -144,6 +149,18 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
   };
 
   return (
+    <>
+     <Modal
+             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        open={modalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box bgcolor="background.paper" p={3}>
+          <Stepper/>
+        </Box>
+      </Modal>
     <List
       component="nav"
       sx={{maxWidth: 240, bgcolor: 'background.paper'}}
@@ -212,6 +229,6 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
     </List>
 
   
-
+    </>
   );
 };
