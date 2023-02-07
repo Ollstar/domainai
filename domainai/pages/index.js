@@ -30,7 +30,7 @@ export default function App(props) {
   let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
 
   const [messageInput, setMessageInput] = useState("");
-  const [appendageMessage, setAppendageMessage] = useState("");
+  const [prependageMessage, setPrependageMessage] = useState("");
   const [behaviourList, setBehaviourList] = useState([]);
   const [questionList, setQustionList] = useState([]);
 
@@ -45,6 +45,7 @@ export default function App(props) {
     }
     scrollableContainerRef.current.scrollTop = scrollableContainerRef.current.scrollHeight;
   }, [conversation, timestamp]);
+
   async function onSubmit(event, message = messageInput) {
     if (event && event.preventDefault) {
       event.preventDefault();
@@ -156,7 +157,7 @@ export default function App(props) {
           onSubmit={onSubmit} 
           setMessageInput={setMessageInput} 
           handleDrawerClose={handleDrawerClose} 
-          setAppendageMessage={setAppendageMessage}
+          setPrependageMessage={setPrependageMessage}
           setBehaviourList={setBehaviourList}
           setQuestionList={setQustionList} />
           <Box

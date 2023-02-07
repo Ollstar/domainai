@@ -1,18 +1,22 @@
-import { Stepper, Step, StepLabel, StepContent, Button, Typography, Select, MenuItem, TextField } from '@mui/material';
+import { Stepper, Step, StepLabel, StepContent, Button, Typography, TextField , Radio, FormControlLabel } from '@mui/material';
 import { useState } from 'react';
+
 function TraitSelector(props) {
   const [selectedTrait, setSelectedTrait] = useState('');
   const traitOptions = ['Fun', 'Non-repetitive', 'Short', 'Longwinded', 'Hyper-accurate', 'Friendly', 'Standoffish'];
 
   return (
-    <Select
-      value={selectedTrait}
-      onChange={(event) => setSelectedTrait(event.target.value)}
-    >
+    <>
       {traitOptions.map(trait => (
-        <MenuItem value={trait}>{trait}</MenuItem>
+        <FormControlLabel
+          control={<Radio />}
+          label={trait}
+          value={trait}
+          checked={selectedTrait === trait}
+          onChange={() => setSelectedTrait(trait)}
+        />
       ))}
-    </Select>
+    </>
   );
 }
 
@@ -46,45 +50,34 @@ function BlackAndWhiteStep(props) {
 function CustomStepper(props) {
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  const steps = [
+    'Select a behavior trait',
+    'Type a message',
+    'Choose specific questions and responses'
+  ];
 
   return (
-    <Stepper activeStep={activeStep} orientation="vertical">
-      <Step>
-        <StepLabel>Select a behavior trait</StepLabel>
-        <StepContent>
-          <TraitSelector />
-          <Button onClick={handleNext}>Next</Button>
-        </StepContent>
-      </Step>
-      <Step>
-        <StepLabel>Type a message</StepLabel>
-        <StepContent>
-          <MessageStep />
-          <Button onClick={handleBack}>Back</Button>
-          <Button onClick={handleNext}>Next</Button>
-        </StepContent>
-      </Step>
-      <Step>
-        <StepLabel>Choose specific questions and responses</StepLabel>
-        <StepContent>
-          <BlackAndWhiteStep />
-          <Button onClick={handleBack}>Back</Button>
-          <Button onClick={handleNext}>Next</Button>
-</StepContent>
-</Step>
-</Stepper>
-);
+    <Stepper nonLinear activeStep={activeStep} orientation="vertical">
+      {steps.map((label, index) => (
+        <Step key={label}>
+          <StepLabel>{label}</StepLabel>
+          <StepContent>
+            {index === 0 && <TraitSelector />}
+            {index === 1 && <MessageStep />}
+            {index === 2 && <BlackAndWhiteStep />}
+            <div>
+              {activeStep !== 0 && (
+                <Button onClick={() => setActiveStep(activeStep - 1)}>Back</Button>
+              )}
+              {activeStep !== steps.length - 1 && (
+                <Button onClick={() => setActiveStep(activeStep + 1)}>Next</Button>
+              )}
+            </div>
+          </StepContent>
+        </Step>
+      ))}
+    </Stepper>
+  );
 }
 
 export default CustomStepper;
