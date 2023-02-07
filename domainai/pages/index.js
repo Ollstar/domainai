@@ -112,15 +112,14 @@ export default function App(props) {
           open={open} elevation={2}>
 
           <Toolbar>
-          <Avatar alt="domainailogo.png" src="/starb.png" />
+          <Avatar sx={{marginRight:4}} alt="domainailogo.png" src="/starb.png" />
 
             <Typography variant="h6" fontFamily={"poppins"} color="black" overflow={"hidden"} component="div" sx={{ flexGrow: 1 }}>
               Starburger GPT
             </Typography>
 
 
-            <Box sx={{ flexGrow: 1 }} />
-            <IconButton
+              <IconButton
               color="black"
               aria-label="open drawer"
               onClick={open ? handleDrawerClose :  handleDrawerOpen}
@@ -131,7 +130,7 @@ export default function App(props) {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Toolbar />
+        <Toolbar>
         <Drawer
           sx={{
             width: drawerWidth,
@@ -177,6 +176,8 @@ export default function App(props) {
                   <DrawerSpacer/>
 
         </Drawer>
+                  </Toolbar>
+
         <Box>
           <Main ref={scrollableContainerRef}               onClick={open ? handleDrawerClose :  null}>
             <DrawerSpacer />
