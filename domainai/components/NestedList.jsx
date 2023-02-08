@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { ExpandMore, ExpandLess, ChevronRight, ChevronLeft } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
-import { Divider,TextField, Toolbar } from '@mui/material';
+import { Divider, TextField, Toolbar } from '@mui/material';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import { Box } from '@mui/material';
 import { useState } from 'react';
@@ -15,7 +15,7 @@ import { Dialog } from '@mui/material';
 
 import { Button } from '@mui/material';
 
-export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose, prependageMessage, setPrependageMessage}) {
+export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose, prependageMessage, setPrependageMessage }) {
   const [open, setOpen] = React.useState({});
   const [modalOpen, setModalOpen] = React.useState(false);
   const [message, setMessage] = useState(prependageMessage);
@@ -121,11 +121,13 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
     }
   ];
   const handleModalClose = (buttonState) => {
-    
-    if (buttonState === "Save") { 
+
+    if (buttonState === "Save") {
       setPrependageMessage(prependageMessage);
       setMessage(prependageMessage);
-    }
+      setTimeout(() => {
+        onSubmit(e, "Change");
+      }, 100);    }
     setModalOpen(false);
 
   };
@@ -173,31 +175,32 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
 
           <Box padding={2}>
             <ListSubheader sx={{ fontFamily: "poppins" }} component="div" id="modal-header">
-              Model Traits
+              Training Message
             </ListSubheader>
             <TextField
               id="filled-multiline-static"
               fullWidth
               multiline
               rows={10}
+              InputProps={{style: { fontFamily: "poppins"}}}
               variant="outlined"
               value={prependageMessage}
               onChange={(e) => setPrependageMessage(e.target.value)}
               onKeyDown={(e) => {
-                
+
                 if (e.key === "Enter") {
-                  handleModalClose(e,"Save");
+                  handleModalClose(e, "Save");
                 }
               }}
 
             />
 
-         
+
           </Box>
         </Box>
         <Toolbar sx={{ justifyContent: "flex-end" }}>
-        <Button variant="contained" onClick={(e) => handleModalClose(e,"Save")}>Save</Button>
-<Button onClick={() => handleModalClose("Cancel")}>Cancel</Button>
+          <Button sx={{ fontFamily: "poppins" }} variant="contained" onClick={(e) => handleModalClose(e, "Save")}>Save</Button>
+          <Button sx={{ fontFamily: "poppins" }} onClick={() => handleModalClose("Cancel")}>Cancel</Button>
 
         </Toolbar>
       </Dialog>
@@ -261,7 +264,7 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
           <ListItemIcon>
             <PsychologyIcon />
           </ListItemIcon>
-          <ListItemText primaryTypographyProps={{ fontFamily: "poppins" }} primary="Model traits" />
+          <ListItemText primaryTypographyProps={{ fontFamily: "poppins" }} primary="Training Message" />
         </ListItemButton>
 
       </List>
