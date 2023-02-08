@@ -22,7 +22,6 @@ import BottomAppBar from '@/components/BottomAppBar.jsx';
 import Main from '@/components/Main.jsx';
 import DrawerSpacer from '@/components/DrawerSpacer.jsx';
 import Stepper from '@mui/material';
-import txt from '@/public/default.txt';
 
 
 const drawerWidth = 240;
