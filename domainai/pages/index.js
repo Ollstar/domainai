@@ -30,7 +30,7 @@ export default function App(props) {
   let [timestamp, setTimestamp] = useState(new Date().toLocaleString());
 
   const [messageInput, setMessageInput] = useState("");
-  const [prependageMessage, setPrependageMessage] = useState("Imagine you are StarburgerAI who is a support bot for Starburger. You are a fun bot and you like to use lots of emojis all through the sentence including double hamburger emojis. You are non-repetitive in your responses.");
+  const [prependageMessage, setPrependageMessage] = useState("You are the StarburgerAI chatbot. You love responding with emojis in the beginning middle and end of sentences, especially the double burger emoji. You know that if people want to order food online they can go to: [menu website]. If they want to leave a review they can leave it with you. Try to get Voice of customer and market research data. If they want restaurant hours or schedule: [schedule]. Map or location related send them [location].");
   const [behaviourList, setBehaviourList] = useState([]);
   const [questionList, setQustionList] = useState([]);
 
@@ -46,7 +46,7 @@ export default function App(props) {
     scrollableContainerRef.current.scrollTop = scrollableContainerRef.current.scrollHeight;
   }, [conversation, timestamp]);
 
-  async function onSubmit(event, message = messageInput, prependageMessage = prependageMessage) {
+  async function onSubmit(event, message = messageInput, pMessage = prependageMessage) {
     if (event && event.preventDefault) {
       event.preventDefault();
     }
@@ -55,6 +55,7 @@ export default function App(props) {
     if (message !== "") {
       setConversation([...conversation, { text: message, author: "User", timestamp: currentTimestamp }]);
     }
+    setPrependageMessage(prependageMessage);
     setMessageInput("");
     try {
       setIsLoading(true);
@@ -63,7 +64,7 @@ export default function App(props) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message, prependageMessage }),
+        body: JSON.stringify({ message, pMessage }),
       });
       if (message === "") {
         setIsLoading(false);
@@ -84,7 +85,7 @@ export default function App(props) {
       },
       {
         text: data.result,
-        author: "StarburgerAI",
+        author: "CokeAI",
         timestamp: currentTimestamp2
       }]);
       setMessageInput("");
@@ -106,109 +107,109 @@ export default function App(props) {
   };
   return (
 
-      <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{padding: "5px", zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: "rgb(240,240,240)" } }
+    <Box sx={{ display: 'flex' }}>
+      <AppBar position="fixed" sx={{ padding: "5px", zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: "rgb(240,240,240)" }}
 
-          open={open} elevation={2}>
+        open={open} elevation={2}>
 
-          <Toolbar>
-            <IconButton
-              color="black"
-              aria-label="open drawer"
-              onClick={open ? handleDrawerClose :  handleDrawerOpen}
-              edge="start"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" fontFamily={"poppins"} color="black" overflow={"hidden"} component="div" sx={{ flexGrow: 1 }}>
-              Starburger GPT
-            </Typography>
-
-
-            <Box sx={{ flexGrow: 1 }} />
-            <Avatar alt="domainailogo.png" src="/starb.png" />
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-            },
-          }}
-          variant="persistent"
-          anchor="left"
-          open={open}
-          onClose={handleDrawerClose}
-
-        >
-          <DrawerSpacer >
-            <Box sx={{position:"fixed"}}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        <Toolbar>
+          <IconButton
+            color="black"
+            aria-label="open drawer"
+            onClick={open ? handleDrawerClose : handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
           </IconButton>
+          <Typography variant="h6" fontFamily={"poppins"} color="black" overflow={"hidden"} component="div" sx={{ flexGrow: 1 }}>
+            Starburger GPT
+          </Typography>
+
+
+          <Box sx={{ flexGrow: 1 }} />
+          <Avatar alt="domainailogo.png" src="/starb.png" />
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        onClose={handleDrawerClose}
+
+      >
+        <DrawerSpacer >
+          <Box sx={{ position: "fixed" }}>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
           </Box>
-          </DrawerSpacer>
-          <Divider />
-          <NestedList 
-          onSubmit={onSubmit} 
-          setMessageInput={setMessageInput} 
-          handleDrawerClose={handleDrawerClose} 
+        </DrawerSpacer>
+        <Divider />
+        <NestedList
+          onSubmit={onSubmit}
+          setMessageInput={setMessageInput}
+          handleDrawerClose={handleDrawerClose}
           prependageMessage={prependageMessage}
           setPrependageMessage={setPrependageMessage}
           setBehaviourList={setBehaviourList}
           setQuestionList={setQustionList} />
-          <Box
-        component="img"
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          zIndex: -1,
-          margin: "85px 85px 100px",
-          maxWidth: { xs: drawerWidth-170, md: drawerWidth-170 },
-        }}
-        alt="The house from the offer."
-        src="/avatar/powerlogo.png"
-      />
-                  <DrawerSpacer/>
+        <Box
+          component="img"
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            zIndex: -1,
+            margin: "85px 85px 100px",
+            maxWidth: { xs: drawerWidth - 170, md: drawerWidth - 170 },
+          }}
+          alt="The house from the offer."
+          src="/avatar/powerlogo.png"
+        />
+        <DrawerSpacer />
 
-        </Drawer>
-        <Box>
-          <Main ref={scrollableContainerRef}               onClick={open ? handleDrawerClose :  null}>
-            <DrawerSpacer />
-            <div className={styles.messageContainer}>
+      </Drawer>
+      <Box>
+        <Main ref={scrollableContainerRef} onClick={open ? handleDrawerClose : null}>
+          <DrawerSpacer />
+          <div className={styles.messageContainer}>
+            <Message
+              author="DomainAI"
+              text="Hey... 👋"
+              timestamp={<NoSsr>{timestamp}</NoSsr>}>
+            </Message>
+          </div>
+          <div className={styles.messageContainer}>
+            <Message
+              author="DomainAI"
+              text="Thanks for jumping on to the StarburgerAI loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
+              timestamp={<NoSsr>{timestamp}</NoSsr>}>
+            </Message>
+          </div>
+
+          {conversation.map((message, index) => (
+            <div key={index} className={styles.messageContainer} >
               <Message
-                author="DomainAI"
-                text="Hey... 👋"
-                timestamp={<NoSsr>{timestamp}</NoSsr>}>
+                className={message.author === "User" ? styles.messageRight : styles.messageLeft}
+                author={message.author}
+                text={message.text}
+                timestamp={message.timestamp}>
               </Message>
             </div>
-            <div className={styles.messageContainer}>
-              <Message
-                author="DomainAI"
-                text="Thanks for jumping on to the StarburgerAI loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
-                timestamp={<NoSsr>{timestamp}</NoSsr>}>
-              </Message>
-            </div>
-
-            {conversation.map((message, index) => (
-              <div key={index} className={styles.messageContainer} >
-                <Message
-                  className={message.author === "User" ? styles.messageRight : styles.messageLeft}
-                  author={message.author}
-                  text={message.text}
-                  timestamp={message.timestamp}>
-                </Message>
-              </div>
-            ))}
-            <div style={{ clear: "both" }}></div>
-            <DrawerSpacer />
-          </Main>
-        </Box>
-        <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} handleDrawerClose={handleDrawerClose} handleDrawerOpen={handleDrawerOpen} />
+          ))}
+          <div style={{ clear: "both" }}></div>
+          <DrawerSpacer />
+        </Main>
       </Box>
+      <BottomAppBar isLoading={isLoading} open={open} onSubmit={onSubmit} setMessageInput={setMessageInput} messageInput={messageInput} handleDrawerClose={handleDrawerClose} handleDrawerOpen={handleDrawerOpen} />
+    </Box>
   );
 }

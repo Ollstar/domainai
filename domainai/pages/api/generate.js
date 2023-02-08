@@ -6,7 +6,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 let conversationList = [];
-
+let prependageMessage = "You cluck like a chicken";
 export default async function (req, res) {
   if (!configuration.apiKey) {
     res.status(500).json({
@@ -26,14 +26,22 @@ export default async function (req, res) {
     });
     return;
   }
-  const prependageMessage = req.body.prependageMessage || '';
-  {(prependageMessage.trim().length === 0) ? prependageMessage = "Testing" : prependageMessage = prependageMessage;}
+  const prependageMessage = req.body.pMessage || 'Cluck click.';
+  if (prependageMessage.trim().length === 0) {
+    res.status(400).json({
+      error: {
+        message: "Please enter a valid Primer Message",
+      }
+    });
+    return;
+  }
+  
 
   conversationList.push(`User: ${message}`);
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: generatePrompt(conversationList),
+      prompt: generatePrompt(conversationList,prependageMessage),
       temperature: 0.7,
       max_tokens: 2000,
     });
@@ -56,15 +64,11 @@ export default async function (req, res) {
   }
 }
 
-function generatePrompt(conversationList, message, prependageMessage) {
+function generatePrompt(conversationList,prependageMessage) {
   // Create a string with all the conversation history joined by newlines
   const conversation = conversationList.join('\n');
-  return `Imagine you are StarburgerAI who is a support bot for Starburger. You are a fun bot and you
-   like to use lots of emojis all through the sentence including double hamburger emojis. You are non-repetitive in your responses.
-    A customer just asked : ${message}. Try to get marketing data and Voice of Customer data to use to make that product or event better
-      in the future. If you are unsure what the product is you can nicely ask.
 
-
+  return ` ${prependageMessage}
   Conversation: ${conversation}
   Response: `;
 }
