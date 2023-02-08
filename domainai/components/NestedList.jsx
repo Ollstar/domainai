@@ -7,21 +7,15 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import { ExpandMore, ExpandLess, ChevronRight, ChevronLeft } from '@mui/icons-material';
 import ChatIcon from '@mui/icons-material/Chat';
-import styles from "styles/index.module.css";
-import { Divider, Icon, IconButton, Modal, Step, Tab, Tabs, TextField, Toolbar } from '@mui/material';
-import { fontFamily, fontSize } from '@mui/system';
-import DrawerSpacer from './DrawerSpacer';
+import { Divider,TextField, Toolbar } from '@mui/material';
 import PsychologyIcon from '@mui/icons-material/Psychology';
-import Stepper from '@/components/Stepper.jsx'
 import { Box } from '@mui/material';
-import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { Dialog } from '@mui/material';
-import { FormControl, InputLabel, FilledInput, InputAdornment } from '@mui/material';
-import { TextareaAutosize } from '@mui/base';
+
 import { Button } from '@mui/material';
 
-export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose, prependageMessage, setPrependageMessage, setBehaviourList, setQuestionList }) {
+export default function NestedList({ onSubmit, setMessageInput, handleDrawerClose, prependageMessage, setPrependageMessage}) {
   const [open, setOpen] = React.useState({});
   const [modalOpen, setModalOpen] = React.useState(false);
   const [message, setMessage] = useState(prependageMessage);
@@ -126,148 +120,153 @@ export default function NestedList({ onSubmit, setMessageInput, handleDrawerClos
       ]
     }
   ];
-
-
-
-
-  const handleModalClose = () => {
+  const handleModalClose = (buttonState) => {
+    
+    if (buttonState === "Save") { 
+      setPrependageMessage(prependageMessage);
+      setMessage(prependageMessage);
+    }
     setModalOpen(false);
-    setPrependageMessage("");
 
   };
-
 
   const handleBrainClick = (message) => {
+    setMessage(message);
     setModalOpen(true);
-    setPrependageMessage(message);
     setOpen({})
   };
+  const handleClick = (entryPoint) => {
+    setOpen({
+      ...open,
+      [entryPoint]: !open[entryPoint]
+    });
+
+  };
+
+  const handleQuestionClick = (entryPoints, question, e) => {
+    const message = `For ${entryPoints}. ${question}`;
+    setMessageInput(message);
+    setTimeout(() => {
+      onSubmit(e, message);
+    }, 100);
+    setOpen({});
+    handleDrawerClose();
+  };
+
+  return (
+    <>
+      <Dialog
+        fullWidth
+
+        open={modalOpen}
+        scroll="paper"
+        onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+
+          sx={{}}
+          bgcolor="background.paper" >
 
 
 
+          <Box padding={2}>
+            <ListSubheader sx={{ fontFamily: "poppins" }} component="div" id="modal-header">
+              Model Traits
+            </ListSubheader>
+            <TextField
+              id="filled-multiline-static"
+              fullWidth
+              multiline
+              rows={10}
+              variant="outlined"
+              value={prependageMessage}
+              onChange={(e) => setPrependageMessage(e.target.value)}
+              onKeyDown={(e) => {
+                
+                if (e.key === "Enter") {
+                  handleModalClose(e,"Save");
+                }
+              }}
 
+            />
 
-const handleClick = (entryPoint) => {
-  setOpen({
-    ...open,
-    [entryPoint]: !open[entryPoint]
-  });
-
-};
-
-const handleQuestionClick = (entryPoints, question, e) => {
-  const message = `For ${entryPoints}. ${question}`;
-  setMessageInput(message);
-  setTimeout(() => {
-    onSubmit(e, message);
-  }, 100);
-  setOpen({});
-  handleDrawerClose();
-};
-
-return (
-  <>
-    <Dialog
-      fullWidth
-
-      open={modalOpen}
-      scroll="paper"
-      onClose={handleModalClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box
-
-        sx={{}}
-        bgcolor="background.paper" >
-
-
-
-<Box padding={2}>
-<ListSubheader sx={{ fontFamily: "poppins" }} component="div" id="modal-header">
-        Model Traits
-      </ListSubheader>
-        <TextField               
-        InputLabelProps={{fontFamily:"poppins"}} fullWidth display="inline" multiline minRows={10} value={message} variant="outlined"/>
-  
+         
+          </Box>
         </Box>
+        <Toolbar sx={{ justifyContent: "flex-end" }}>
+        <Button variant="contained" onClick={(e) => handleModalClose(e,"Save")}>Save</Button>
+<Button onClick={() => handleModalClose("Cancel")}>Cancel</Button>
 
-      </Box>
-      <Toolbar sx={{ justifyContent: "flex-end" }}>
-      <Button variant="contained" onClick={handleModalClose}>Save</Button>
+        </Toolbar>
+      </Dialog>
+      <List
+        component="nav"
+        sx={{ maxWidth: 240, bgcolor: 'background.paper' }}
+        aria-labelledby="nested-list-subheader"
 
-        <Button  onClick={handleModalClose}>Cancel</Button>
+      >
+        <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4 }} component="div" id="nested-list-subheader">
+          Quick Questions
+        </ListSubheader>
+        {data.map((group, groupIndex) => (
 
-      </Toolbar>
-    </Dialog>
-    <List
-      component="nav"
-      sx={{ maxWidth: 240, bgcolor: 'background.paper' }}
-      aria-labelledby="nested-list-subheader"
+          <React.Fragment key={groupIndex}>
 
-    >
-      <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4 }} component="div" id="nested-list-subheader">
-        Quick Questions
-      </ListSubheader>
-      {data.map((group, groupIndex) => (
+            <ListItemButton onClick={() => handleClick(group.group)}>
+              <ListItemIcon>
+                {open[group.group] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemIcon>
+              <ListItemText primaryTypographyProps={{ fontFamily: "poppins" }} primary={group.group} />
+            </ListItemButton>
+            <Collapse in={open[group.group]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {group.entries.map((entry, entryIndex) => (
+                  <React.Fragment key={entryIndex}>
+                    <ListItemButton onClick={() => handleClick(entry.entryPoint)}>
+                      <ListItemIcon>
+                        {open[entry.entryPoint] ? <ChevronLeft /> : <ChevronRight />}
+                      </ListItemIcon>
+                      <ListItemText primaryTypographyProps={{ fontFamily: "poppins", fontSize: 12 }} primary={entry.entryPoint} />
+                    </ListItemButton>
+                    <Collapse in={open[entry.entryPoint]} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {entry.questions.map((question, questionIndex) => (
+                          <ListItemButton
+                            key={questionIndex}
 
-        <React.Fragment key={groupIndex}>
+                            onClick={() => handleQuestionClick(entry.entryPoint, question)}
+                          >
+                            <ListItemIcon>
+                              <ChatIcon />
+                            </ListItemIcon>
+                            <ListItemText primaryTypographyProps={{ fontFamily: "poppins", fontSize: 10 }} primary={question} />
+                          </ListItemButton>
+                        ))}
+                      </List>
+                    </Collapse>
+                  </React.Fragment>
+                ))}
 
-          <ListItemButton onClick={() => handleClick(group.group)}>
-            <ListItemIcon>
-              {open[group.group] ? <ExpandLess /> : <ExpandMore />}
-            </ListItemIcon>
-            <ListItemText primaryTypographyProps={{ fontFamily: "poppins" }} primary={group.group} />
-          </ListItemButton>
-          <Collapse in={open[group.group]} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {group.entries.map((entry, entryIndex) => (
-                <React.Fragment key={entryIndex}>
-                  <ListItemButton onClick={() => handleClick(entry.entryPoint)}>
-                    <ListItemIcon>
-                      {open[entry.entryPoint] ? <ChevronLeft /> : <ChevronRight />}
-                    </ListItemIcon>
-                    <ListItemText primaryTypographyProps={{ fontFamily: "poppins", fontSize: 12 }} primary={entry.entryPoint} />
-                  </ListItemButton>
-                  <Collapse in={open[entry.entryPoint]} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      {entry.questions.map((question, questionIndex) => (
-                        <ListItemButton
-                          key={questionIndex}
+              </List>
+            </Collapse>
+          </React.Fragment>
+        ))}
+        <Divider />
+        <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4 }} component="div" id="nested-list-subheader">
+          Admin
+        </ListSubheader>
+        <ListItemButton onClick={() => handleBrainClick(prependageMessage)}>
+          <ListItemIcon>
+            <PsychologyIcon />
+          </ListItemIcon>
+          <ListItemText primaryTypographyProps={{ fontFamily: "poppins" }} primary="Model traits" />
+        </ListItemButton>
 
-                          onClick={() => handleQuestionClick(entry.entryPoint, question)}
-                        >
-                          <ListItemIcon>
-                            <ChatIcon />
-                          </ListItemIcon>
-                          <ListItemText primaryTypographyProps={{ fontFamily: "poppins", fontSize: 10 }} primary={question} />
-                        </ListItemButton>
-                      ))}
-
-                    </List>
-
-                  </Collapse>
-                </React.Fragment>
-              ))}
-
-            </List>
-          </Collapse>
-        </React.Fragment>
-      ))}
-      <Divider />
-      <ListSubheader sx={{ fontFamily: "poppins", marginTop: 4 }} component="div" id="nested-list-subheader">
-        Admin
-      </ListSubheader>
-      <ListItemButton onClick={() => handleBrainClick()}>
-        <ListItemIcon>
-          <PsychologyIcon />
-        </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ fontFamily: "poppins" }} primary="Model traits" />
-      </ListItemButton>
-
-    </List>
+      </List>
 
 
-  </>
-);
+    </>
+  );
 };
