@@ -88,7 +88,7 @@ export default function App(props) {
       },
       {
         text: data.result,
-        author: "StarburgerAI",
+        author: "StarburgerGPT",
         timestamp: currentTimestamp2
       }]);
       setMessageInput("");
@@ -185,15 +185,15 @@ export default function App(props) {
           <DrawerSpacer />
           <div className={styles.messageContainer}>
             <Message
-              author="DomainAI"
+              author="StarburgerGPT"
               text="Hey... 👋"
               timestamp={<NoSsr>{timestamp}</NoSsr>}>
             </Message>
           </div>
           <div className={styles.messageContainer}>
             <Message
-              author="DomainAI"
-              text="Thanks for jumping on to the StarburgerAI loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
+              author="StarburgerGPT"
+              text="Thanks for jumping on to the StarburgerGPT loyalty chat 🙏.  We are here to help and serve… And we appreciate your feedback.😃 What can we do for you?"
               timestamp={<NoSsr>{timestamp}</NoSsr>}>
             </Message>
           </div>

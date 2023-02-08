@@ -46,7 +46,7 @@ export default async function (req, res) {
       max_tokens: 2000,
     });
     //push the response from OpenAI with StarburgerAI: in front of it
-    conversationList.push(`StarburgerAI: ${completion.data.choices[0].text}`);
+    conversationList.push(`StarburgerGPT: ${completion.data.choices[0].text}`);
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch (error) {
     // Consider adjusting the error handling logic for your use case
