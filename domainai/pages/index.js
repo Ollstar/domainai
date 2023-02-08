@@ -55,6 +55,9 @@ export default function App(props) {
     if (message !== "") {
       setConversation([...conversation, { text: message, author: "User", timestamp: currentTimestamp }]);
     }
+    if (message === "Change") {
+      setConversation([...conversation, { text: "That tickled...", author: "Starburger", timestamp: currentTimestamp }]);
+    }
     setPrependageMessage(prependageMessage);
     setMessageInput("");
     try {
@@ -85,7 +88,7 @@ export default function App(props) {
       },
       {
         text: data.result,
-        author: "CokeAI",
+        author: "StarburgerAI",
         timestamp: currentTimestamp2
       }]);
       setMessageInput("");
