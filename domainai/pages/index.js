@@ -56,7 +56,15 @@ export default function App(props) {
       setConversation([...conversation, { text: message, author: "User", timestamp: currentTimestamp }]);
     }
     if (message === "Change") {
-      setConversation([...conversation, { text: "That tickled...", author: "Starburger", timestamp: currentTimestamp }]);
+      setConversation([...conversation, { text: "Training saved.", author: "Starburger", timestamp: currentTimestamp }]);
+      // console log if im here
+      console.log("change")
+      return
+    }
+    if (message === "") {
+      // console log if im here
+      console.log("nothing")
+      return
     }
     setPrependageMessage(prependageMessage);
     setMessageInput("");
